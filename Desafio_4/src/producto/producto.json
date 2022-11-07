@@ -1,0 +1,14 @@
+[
+	{
+		"name": "Lapices de colores",
+		"price": "21313",
+		"images": "http://localhost:8080/imagen/1667768825345-lapices.jpg",
+		"id": 1
+	},
+	{
+		"name": "Cuaderno",
+		"price": "21313",
+		"images": "http://localhost:8080/imagen/1667768843104-cuadernos.jpg",
+		"id": 2
+	}
+]
