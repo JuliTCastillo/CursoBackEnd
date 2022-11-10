@@ -6,9 +6,15 @@
 		"id": 1
 	},
 	{
-		"name": "Cuaderno",
-		"price": "21313",
-		"images": "http://localhost:8080/imagen/1667768843104-cuadernos.jpg",
+		"name": "cuadernos",
+		"price": "4302",
+		"images": "http://localhost:8080/imagen/1668093615132-cuadernos.jpg",
 		"id": 2
+	},
+	{
+		"name": "lapices de colores",
+		"price": "5323",
+		"images": "http://localhost:8080/imagen/1668089001629-cuadernos.jpg",
+		"id": 3
 	}
 ]

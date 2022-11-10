@@ -28,6 +28,27 @@ class Contenedor {
             fs.promises.writeFile(this.ruta, JSON.stringify(contenido, null, "\t"));
         }
     }
+    putById = async (id, object) =>{
+        try{
+            let data = await fs.promises.readFile(this.ruta, 'utf-8'); //devuelve un string
+            console.log(data)
+            let contenido = JSON.parse(data); //convertimos a array 
+            console.log(contenido)
+            const {name, price, images} = object;
+            contenido.map((element, index)=>{
+                if(element.id == id){
+                    element.name = name;
+                    element.price = price;
+                    element.images = images;
+                };
+            });
+            await fs.promises.writeFile(this.ruta, JSON.stringify(contenido, null, "\t"));
+            return contenido;
+        }
+        catch(error){
+            return {status: "Error",message: error.message}
+        }
+    }
     getById= async (id)=>{
         try{
             //a traves de una id devolvemos una lista 
