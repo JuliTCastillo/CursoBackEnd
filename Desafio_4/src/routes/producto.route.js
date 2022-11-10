@@ -19,24 +19,32 @@ router.get("/:id", async(req, res)=>{
 })
 router.post("/", uploader.single('images') ,(req, res)=>{
     //? Recibe y agrega un producto, y lo devuelve con su id asignada
-    console.log(req.file);
-    const image = req.protocol+"://"+req.hostname+":8080/imagen/"+req.file.filename;
-    console.log(image)
+    let image;
+    !(req.file == null ) ? image = req.protocol+"://"+req.hostname+":8080/imagen/"+req.file.filename : image = "";
     const product = req.body;
     product.images = image;
     //Se lo mandamos a nuestra class Contendor
     object.save(product);
     res.send({status: "success", payload: product})
 })
-router.put("/:id", (req, res)=>{
+router.put("/:id",uploader.single('images') , async (req, res)=>{
     //? Recibe y actualiza un producto segun su id
-    let clave = req.body.clave;
-    res.send(clave);
+    let image;
+    !(req.file == null ) ? image = req.protocol+"://"+req.hostname+":8080/imagen/"+req.file.filename : image = "";
+    const product = req.body;
+    product.images = image;
+    console.log(product)
+    
+    //let parametro = req.params;
+    let consulta = await object.putById(2, product)
+    console.log(consulta)
+    res.send(product);
+    //? deberiamos obtener la clave, luego buscar nuestro producto con el metodo getById pasarle los datos que teniamos y luego reemplazarlo, en el array y reescribir el archivo con el producto actualizado
 })
 router.delete("/:id",(req, res)=>{
     //? Elimina un producto segun su id
-    let id = req.body.clave;
-    object.deleteById(id);
+    let parametro = req.params;
+    object.deleteById(parametro);
 })
 
 export default router;
