@@ -31,11 +31,9 @@ class Contenedor {
     putById = async (id, object) =>{
         try{
             let data = await fs.promises.readFile(this.ruta, 'utf-8'); //devuelve un string
-            console.log(data)
             let contenido = JSON.parse(data); //convertimos a array 
-            console.log(contenido)
             const {name, price, images} = object;
-            contenido.map((element, index)=>{
+            contenido.map((element)=>{
                 if(element.id == id){
                     element.name = name;
                     element.price = price;

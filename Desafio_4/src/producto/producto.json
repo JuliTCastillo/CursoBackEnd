@@ -6,9 +6,9 @@
 		"id": 1
 	},
 	{
-		"name": "cuadernos",
-		"price": "4302",
-		"images": "http://localhost:8080/imagen/1668093615132-cuadernos.jpg",
+		"name": "goma",
+		"price": "430",
+		"images": "",
 		"id": 2
 	},
 	{

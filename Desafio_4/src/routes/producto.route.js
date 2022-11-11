@@ -33,17 +33,15 @@ router.put("/:id",uploader.single('images') , async (req, res)=>{
     !(req.file == null ) ? image = req.protocol+"://"+req.hostname+":8080/imagen/"+req.file.filename : image = "";
     const product = req.body;
     product.images = image;
-    console.log(product)
     
-    //let parametro = req.params;
-    let consulta = await object.putById(2, product)
-    console.log(consulta)
+    let parametro = req.params.id;
+    let consulta = await object.putById(parametro, product)
     res.send(product);
     //? deberiamos obtener la clave, luego buscar nuestro producto con el metodo getById pasarle los datos que teniamos y luego reemplazarlo, en el array y reescribir el archivo con el producto actualizado
 })
 router.delete("/:id",(req, res)=>{
     //? Elimina un producto segun su id
-    let parametro = req.params;
+    let parametro = req.params.id;
     object.deleteById(parametro);
 })
 
