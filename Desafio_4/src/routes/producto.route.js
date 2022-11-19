@@ -1,10 +1,16 @@
 //importamos todo el modulo | utilizando la llaves
 import { Router } from "express";
 import { uploader } from "../utils.js"
+import __dirname from "../utils.js";
 import Contenedor from "../managers/contenedor.js";
+
 const router = Router(); //inicializamos el route
 const object = new Contenedor ();
 
+router.get('/home', (req, res)=>{
+    res.render('home', {nombre: 'juli'});
+})
+ 
 router.get("/", async (req, res)=>{
     //? Devuelve todos los productos
     let consulta = await object.getAll(); //convertimos a array 

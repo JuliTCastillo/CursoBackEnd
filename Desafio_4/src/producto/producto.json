@@ -6,15 +6,21 @@
 		"id": 1
 	},
 	{
-		"name": "goma",
-		"price": "430",
-		"images": "",
+		"name": "cuadernos",
+		"price": "2500",
+		"images": "http://localhost:8080/imagen/1668881782924-cuadernos.jpg",
 		"id": 2
 	},
 	{
-		"name": "lapices de colores",
-		"price": "5323",
-		"images": "http://localhost:8080/imagen/1668089001629-cuadernos.jpg",
+		"name": "Regla",
+		"price": "250",
+		"images": "http://localhost:8080/imagen/1668881915759-reglas.jpg",
 		"id": 3
+	},
+	{
+		"name": "marcadores",
+		"price": "1050",
+		"images": "http://localhost:8080/imagen/1668881968481-Marcadores.jpg",
+		"id": 4
 	}
 ]
