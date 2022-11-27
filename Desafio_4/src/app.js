@@ -5,26 +5,18 @@ import __dirname from "./utils.js";
 
 const object = new Contenedor ();
 const app = express();
+
 //Le indicamos donde van estar guardadas nuestras vistas
 app.set('views', `${__dirname}/public/views`); //templay string
 app.set('view engine', 'ejs');
 
 app.use(express.json()); //le indicamos que procese json
+app.use(express.urlencoded({ extended : true }));
 app.use(express.static(__dirname + "/public"));//Le indicamos que vamos a trabajar con un sistema estatico
-
 
 //Conectamos nuestro programa principal con el router
 app.use("/api/products", productoRouter);
 
-app.get('/home', (req, res)=>{
-    res.render('home', {nombre: 'juli'});
-})
-
-app.get('/product', async(req, res)=>{
-    let consulta = await object.getAll(); //convertimos a array 
-    console.log(consulta.length) //Devolvemos el array producto
-    res.render('pages/producto',{product:consulta});
-})
 
 const server = app.listen(8080, ()=>console.log("Escuchando :)"));
 //El USE es un MIDDLEWARE: Es decir que para en todos sus use para realizar el pedido que se esta pidiendo. Podemos crear nuestros MIDDLEWARE | un parametro importante es el next: Su funcionamiento es pasar al siguiente MIDDLEWARE.

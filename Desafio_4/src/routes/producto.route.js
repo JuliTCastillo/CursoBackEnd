@@ -1,7 +1,6 @@
 //importamos todo el modulo | utilizando la llaves
 import { Router } from "express";
 import { uploader } from "../utils.js"
-import __dirname from "../utils.js";
 import Contenedor from "../managers/contenedor.js";
 
 const router = Router(); //inicializamos el route
@@ -9,6 +8,12 @@ const object = new Contenedor ();
 
 router.get('/home', (req, res)=>{
     res.render('home', {nombre: 'juli'});
+})
+
+router.get('/product', async(req, res)=>{
+    let consulta = await object.getAll(); //convertimos a array 
+    console.log(consulta.length) //Devolvemos el array producto
+    res.render('pages/producto',{product:consulta});
 })
  
 router.get("/", async (req, res)=>{
@@ -26,9 +31,11 @@ router.get("/:id", async(req, res)=>{
 router.post("/", uploader.single('images') ,(req, res)=>{
     //? Recibe y agrega un producto, y lo devuelve con su id asignada
     let image;
-    !(req.file == null ) ? image = req.protocol+"://"+req.hostname+":8080/imagen/"+req.file.filename : image = "";
+    image = req.protocol+"://"+req.hostname+":8080/imagen/"+req.file.filename ;
     const product = req.body;
     product.images = image;
+    console.log(product)
+    res.send(product)
     //Se lo mandamos a nuestra class Contendor
     object.save(product);
     res.send({status: "success", payload: product})
@@ -36,7 +43,7 @@ router.post("/", uploader.single('images') ,(req, res)=>{
 router.put("/:id",uploader.single('images') , async (req, res)=>{
     //? Recibe y actualiza un producto segun su id
     let image;
-    !(req.file == null ) ? image = req.protocol+"://"+req.hostname+":8080/imagen/"+req.file.filename : image = "";
+    //!(req.file == null ) ? image = req.protocol+"://"+req.hostname+":8080/imagen/"+req.file.filename : image = "";
     const product = req.body;
     product.images = image;
     

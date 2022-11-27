@@ -1,26 +1,50 @@
 [
 	{
-		"name": "Lapices de colores",
-		"price": "21313",
-		"images": "http://localhost:8080/imagen/1667768825345-lapices.jpg",
+		"name": "cuaderno A4",
+		"price": "678",
+		"images": "http://localhost:8080/imagen/1669576032915-cuadernoA4.jpg",
 		"id": 1
-	},
-	{
-		"name": "cuadernos",
-		"price": "2500",
-		"images": "http://localhost:8080/imagen/1668881782924-cuadernos.jpg",
-		"id": 2
-	},
-	{
-		"name": "Regla",
-		"price": "250",
-		"images": "http://localhost:8080/imagen/1668881915759-reglas.jpg",
-		"id": 3
 	},
 	{
 		"name": "marcadores",
 		"price": "1050",
-		"images": "http://localhost:8080/imagen/1668881968481-Marcadores.jpg",
+		"images": "http://localhost:8080/imagen/1669576046887-Marcadores.jpg",
+		"id": 2
+	},
+	{
+		"name": "cuadernos",
+		"price": "2500",
+		"images": "http://localhost:8080/imagen/1669577975681-cuadernos.jpg",
+		"id": 3
+	},
+	{
+		"name": "reglas",
+		"price": "360",
+		"images": "http://localhost:8080/imagen/1669578244503-reglas.jpg",
 		"id": 4
+	},
+	{
+		"name": "Lapices de colores",
+		"price": "2500",
+		"images": "http://localhost:8080/imagen/1669580023106-lapices.jpg",
+		"id": 5
+	},
+	{
+		"name": "Lapices de colores",
+		"price": "2500",
+		"images": "http://localhost:8080/imagen/1669580214702-lapices.jpg",
+		"id": 6
+	},
+	{
+		"name": "Lapices de colores",
+		"price": "2500",
+		"images": "http://localhost:8080/imagen/1669580218707-lapices.jpg",
+		"id": 7
+	},
+	{
+		"name": "Lapices de colores",
+		"price": "2500",
+		"images": "http://localhost:8080/imagen/1669580224949-lapices.jpg",
+		"id": 8
 	}
 ]
