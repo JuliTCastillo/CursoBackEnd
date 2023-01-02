@@ -18,7 +18,7 @@ class Contenedor {
         let contenido = JSON.parse(data); //convertimos a array 
         if(contenido.length == 0){ //si es 0, el archivo se acaba de crear
             objeto.id  = 1; //colocamos la id
-            console.log(objeto);
+            //console.log(objeto);
             contenido.push(JSON.parse(JSON.stringify(objeto))); //agregamos el objeto a la lista\
             await fs.promises.writeFile(this.ruta, JSON.stringify(contenido, null, "\t"));
         }
@@ -26,7 +26,7 @@ class Contenedor {
             contenido.forEach(element => {this.id = element.id});
             objeto.id  = this.id+=1;
             contenido.push(objeto); //agregamos el objeto a la lista
-            console.log(contenido);
+            //console.log(contenido);
             fs.promises.writeFile(this.ruta, JSON.stringify(contenido, null, "\t"));
         }
     }

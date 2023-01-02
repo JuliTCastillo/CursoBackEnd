@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
      <meta charset="UTF-8">
      <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,36 +8,103 @@
      <link rel="stylesheet" href="/css/style.css">
      <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
      <!-- CSS only -->
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
      <title>Formulario</title>
 </head>
+
 <body>
-     
+     <header>
+          <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+               <ul class="navbar-nav ">
+                    <li class="nav-item">
+                         <a class="nav-link" href="#">Ver producto</a>
+                    </li>
+                    <li class="nav-item">
+                         <a class="nav-link" href="#">Soporte</a>
+                    </li>
+                    <li class="nav-item">
+                         <a class="nav-link" href="#">Mas</a>
+                    </li>
+               </ul>
+          </nav>
+     </header>
      <div class="m-5">
-          <h1>Ingresar Datos</h1>
-          <form id="productForm">
-               <div class="col-3">
-                    <label class='form-label' for="name">Nombre del Producto</label>
-                    <input class='form-control' type="text" name="name" id="name">
+          <section>
+               <h1>Ingresar Datos</h1>
+               <form id="productForm">
+                    <div class="col-3">
+                         <label class='form-label' for="name">Nombre del Producto</label>
+                         <input class='form-control' type="text" name="name" id="name">
+                    </div>
+                    <div class="col-3">
+                         <label class='form-label' for="price">Precio</label>
+                         <input class='form-control' type="text" name="price" id="price">
+                    </div>
+                    <div class="col-3">
+                         <label class='form-label' for="images">Ingrese la imagen</label>
+                         <input class='form-control' type="file" name="images" id="images">
+                    </div>
+                    <button class="btn btn-success w-25 my-sm-3" type="submit" id="btnProduct">Enviar</button>
+               </form>
+               <a class="btn btn-primary w-25" href="/api/products/product">Ver Productos</a>
+               
+          </section>
+          <section>
+               <h2>Lista de productos</h2>
+               <div >
+                    <div class="row d-flex justify-content-center align-items-center gap-3 scroll w-50 m-2">
+                         <div class="row">
+                              <div class="col">
+                                   <p>Nombre</p>
+                              </div>
+                              <div class="col">
+                                   <p>Precio</p>
+                              </div>
+                              <div class="col">
+                                   <p>Imagen</p>
+                              </div>
+                         </div>
+                         <div class="row" id="listProduct"></div>
+                    </div>
                </div>
-               <div class="col-3">
-                    <label class='form-label' for="price">Precio</label>
-                    <input class='form-control' type="text" name="price" id="price">
+          </section>
+          <section>
+               <div>
+                    <h2>Atencion al cliente</h2>
+                    <button type="submit" class="btn btn-primary w-25" data-bs-toggle="modal"
+                         data-bs-target="#chat">Comenzar chat</button>
                </div>
-               <div class="col-3">
-                    <label class='form-label' for="images">Ingrese la imagen</label>
-                    <input class='form-control' type="file" name="images" id="images">
+               <!-- Modal -->
+               <div class="modal fade" id="chat" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                         <div class="modal-content">
+                              <div class="modal-header">
+                                   <h1 class="modal-title fs-5" id="exampleModalLabel">Chat</h1>
+                                   <span class="live"></span>
+                                   <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body" >
+                                   <div class="scroll" id="msg"></div>
+                              </div>
+                              <div class="modalfooter">
+                                   <div class="d-flex">
+                                        <input type="text" id="chatBox" class="form-control w-100">
+                                        <button type="submit" class="btn btn-primary" id="send">Enviar</button>
+                                   </div>
+                              </div>
+                         </div>
+                    </div>
                </div>
-               <button class="btn btn-success w-25 my-sm-3" type="submit">Enviar</button>
-          </form>
-          <a class="btn btn-primary w-25" href="/api/products/product">Ver Productos</a>
+          </section>
      </div>
      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
      <!-- JavaScript Bundle with Popper -->
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
      <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-     <script src="/script/index.js"></script>
+     <script src="/socket.io/socket.io.js"></script> <!--?Importante incorporar este script-->
+     <script type="module" src="/script/chat.js"></script>
 </body>
+
 </html>
-
-

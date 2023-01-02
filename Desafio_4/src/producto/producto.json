@@ -30,21 +30,15 @@
 		"id": 5
 	},
 	{
-		"name": "Lapices de colores",
-		"price": "2500",
-		"images": "http://localhost:8080/imagen/1669580214702-lapices.jpg",
+		"name": "libro",
+		"price": "1234",
+		"images": "http://localhost:8080/imagen/1672671124184-libro.jpg",
 		"id": 6
 	},
 	{
-		"name": "Lapices de colores",
-		"price": "2500",
-		"images": "http://localhost:8080/imagen/1669580218707-lapices.jpg",
+		"name": "borrador",
+		"price": "540",
+		"images": "http://localhost:8080/imagen/1672671137640-borrador.png",
 		"id": 7
-	},
-	{
-		"name": "Lapices de colores",
-		"price": "2500",
-		"images": "http://localhost:8080/imagen/1669580224949-lapices.jpg",
-		"id": 8
 	}
 ]

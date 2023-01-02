@@ -5,7 +5,6 @@ import Contenedor from "../managers/contenedor.js";
 
 const router = Router(); //inicializamos el route
 const object = new Contenedor ();
-
 router.get('/home', (req, res)=>{
     res.render('home', {nombre: 'juli'});
 })
@@ -14,6 +13,12 @@ router.get('/product', async(req, res)=>{
     let consulta = await object.getAll(); //convertimos a array 
     console.log(consulta.length) //Devolvemos el array producto
     res.render('pages/producto',{product:consulta});
+})
+router.get('/allProduct', async(req, res)=>{
+    let consulta = await object.getAll(); //convertimos a array 
+    console.log(consulta.length) //Devolvemos el array producto
+    res.send(consulta)
+    //res.render('pages/allProduct',{product:JSON.parse(consulta)});
 })
  
 router.get("/", async (req, res)=>{
@@ -34,11 +39,12 @@ router.post("/", uploader.single('images') ,(req, res)=>{
     image = req.protocol+"://"+req.hostname+":8080/imagen/"+req.file.filename ;
     const product = req.body;
     product.images = image;
-    console.log(product)
+    //!socket.emit('addProduct', product);
+    ///console.log(product);
     res.send(product)
     //Se lo mandamos a nuestra class Contendor
-    object.save(product);
-    res.send({status: "success", payload: product})
+    let array = object.save(product);
+    res.send({status: "success", payload: array})
 })
 router.put("/:id",uploader.single('images') , async (req, res)=>{
     //? Recibe y actualiza un producto segun su id

@@ -1,3 +1,49 @@
+*{font-family: Arial, Helvetica, sans-serif;}
 .shade{
     box-shadow: 0 0rem 1rem rgba(0,0,0,0.175)
+}
+
+.modalfooter{
+    padding: 20px;
+    border-top: 1px #e2e2e2 solid;
+}
+
+.live{
+    background-color: red;
+    margin-left: 5px;
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
+}
+
+.scroll{
+    overflow-y: scroll;
+    margin-left: 10px;
+    height: 300px;
+}
+.userMessage{
+    margin: 10px;
+}
+.messageRight{
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 16px;
+}
+.messageRight p{
+    text-align: right;
+}
+
+.designMessage{
+    display: inline;
+    padding: 10px 20px;
+    background: rgb(207, 207, 207);
+    color: black;
+    border-radius: 20px;
+}
+.color{
+    background: linear-gradient(#054672, #1cb2e0);
+    color: white;
+}
+.logIn{
+    text-align: center;
 }

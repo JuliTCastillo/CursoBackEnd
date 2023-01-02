@@ -1,5 +1,5 @@
 const form = document.getElementById("productForm");
- 
+
 form.addEventListener('submit', e =>{
     e.preventDefault(); //evita que al enviar los datos se resfresque la pagina 
     let data = new FormData(form); //Obtenemos los datos que ingresaron en el formulario | estrucuta de datos diferente
@@ -10,9 +10,9 @@ form.addEventListener('submit', e =>{
     fetch("/api/products",{
         method:"POST",
         body:data //Mandamos al objeto directamente
-    }).then(result => result.json()).then(json=>console.log(json));
+    }).then(result => result.json());
 
-   Swal.fire({
+    Swal.fire({
         toast: true,
         position: "top-end",
         showConfirmButton: false,
@@ -20,26 +20,11 @@ form.addEventListener('submit', e =>{
         title: 'Su producto se guardo correctamente',
         icon: 'success'
     })
-
     /*fetch("/api/products/:id", {
         method : "PUT",
         body: data
     }).then(result => result.json()).then(json=>console.log(json))*/
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 // fetch("/api/products", { //Como estamos usando nuestro servidor solo basta ingresar la ruta principal
