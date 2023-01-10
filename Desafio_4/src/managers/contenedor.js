@@ -58,7 +58,7 @@ class Contenedor {
             contenido.map((element, index)=>{
                 if(element.id == id) producto = contenido[index];
             });
-            return producto;
+            return {status: "Success", proload: producto};
         }
         catch{
             return {status: "Error",message: error.message}

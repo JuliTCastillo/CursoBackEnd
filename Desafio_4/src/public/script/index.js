@@ -26,7 +26,6 @@ form.addEventListener('submit', e =>{
     }).then(result => result.json()).then(json=>console.log(json))*/
 })
 
-
 // fetch("/api/products", { //Como estamos usando nuestro servidor solo basta ingresar la ruta principal
 //     method: "POST", //El metodo que usamos para conectarnos con el endpoint
 //     body: JSON.stringify(obj), //Cual es el cuerpo que mandamos es decir los datos

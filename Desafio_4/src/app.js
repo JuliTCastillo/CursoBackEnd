@@ -1,10 +1,9 @@
 import express from "express";
 import productoRouter from "./routes/producto.route.js";
-import Contenedor from "./managers/contenedor.js";
+import carritoRouter from './routes/carrito.route.js';
 import __dirname from "./utils.js";
 import {Server} from 'socket.io'; //?importamos el modulo de socket
 
-const object = new Contenedor ();
 const app = express();
 
 //Le indicamos donde van estar guardadas nuestras vistas
@@ -17,8 +16,9 @@ app.use(express.static(__dirname + "/public"));//Le indicamos que vamos a trabaj
 
 //Conectamos nuestro programa principal con el router
 app.use("/api/products", productoRouter);
-//El USE es un MIDDLEWARE: Es decir que para en todos sus use para realizar el pedido que se esta pidiendo. Podemos crear nuestros MIDDLEWARE | un parametro importante es el next: Su funcionamiento es pasar al siguiente MIDDLEWARE.
+app.use('/api/carrito', carritoRouter);
 
+//El USE es un MIDDLEWARE: Es decir que para en todos sus use para realizar el pedido que se esta pidiendo. Podemos crear nuestros MIDDLEWARE | un parametro importante es el next: Su funcionamiento es pasar al siguiente MIDDLEWARE.
 const PORT = process.env.PORT || 8080; //?En el caso que tengamos un puerto lo tomamos, sino tenemos un puerto por defecto tomamos el 8080 | en glitch usa puertos distinto a 8080
 const server = app.listen(PORT, ()=>console.log("Escuchando :)"));
 

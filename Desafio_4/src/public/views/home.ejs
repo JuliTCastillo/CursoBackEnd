@@ -6,6 +6,7 @@
      <meta http-equiv="X-UA-Compatible" content="IE=edge">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <link rel="stylesheet" href="/css/style.css">
+     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
      <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
      <!-- CSS only -->
      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -15,8 +16,8 @@
 
 <body>
      <header>
-          <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-               <ul class="navbar-nav ">
+          <nav class="navbar navbar-expand-lg navbar-dark bg-dark w-100">
+               <ul class="d-flex w-100 justify-content-around align-items-center m-3">
                     <li class="nav-item">
                          <a class="nav-link" href="#">Ver producto</a>
                     </li>
@@ -26,54 +27,64 @@
                     <li class="nav-item">
                          <a class="nav-link" href="#">Mas</a>
                     </li>
+                    <li id="cart">
+                         <button type="submit" class="btn btn-success" id="btnCarrito">Comenzar compra</button>
+                    </li>
                </ul>
           </nav>
      </header>
+
      <div class="m-5">
           <section>
                <h1>Ingresar Datos</h1>
                <form id="productForm">
-                    <div class="col-3">
+                    <div class="col w-50">
                          <label class='form-label' for="name">Nombre del Producto</label>
                          <input class='form-control' type="text" name="name" id="name">
                     </div>
-                    <div class="col-3">
+                    <div class="col w-50">
                          <label class='form-label' for="price">Precio</label>
                          <input class='form-control' type="text" name="price" id="price">
                     </div>
-                    <div class="col-3">
+                    <div class="col w-50">
                          <label class='form-label' for="images">Ingrese la imagen</label>
                          <input class='form-control' type="file" name="images" id="images">
                     </div>
-                    <button class="btn btn-success w-25 my-sm-3" type="submit" id="btnProduct">Enviar</button>
+                    <button class="btn btn-success w-50 my-sm-3" type="submit" id="btnProduct">Enviar</button>
                </form>
-               <a class="btn btn-primary w-25" href="/api/products/product">Ver Productos</a>
+               <a class="btn btn-primary w-50" href="/api/products/product">Ir a tienda</a>
                
           </section>
           <section>
-               <h2>Lista de productos</h2>
+               <h2 class="m-4">Lista de productos</h2>
                <div >
                     <div class="row d-flex justify-content-center align-items-center gap-3 scroll w-50 m-2">
                          <div class="row">
-                              <div class="col">
-                                   <p>Nombre</p>
+                              <div class="col d-flex justify-content-center align-items-center">
+                                   <p class="text-center">Nombre</p>
                               </div>
-                              <div class="col">
-                                   <p>Precio</p>
+                              <div class="col d-flex justify-content-center align-items-center">
+                                   <p class="text-center">Precio</p>
                               </div>
-                              <div class="col">
-                                   <p>Imagen</p>
+                              <div class="col d-flex justify-content-center align-items-center">
+                                   <p class="text-center">Imagen</p>
                               </div>
                          </div>
                          <div class="row" id="listProduct"></div>
                     </div>
                </div>
           </section>
+          <br>
           <section>
-               <div>
-                    <h2>Atencion al cliente</h2>
-                    <button type="submit" class="btn btn-primary w-25" data-bs-toggle="modal"
-                         data-bs-target="#chat">Comenzar chat</button>
+               <div class="row d-flex justify-content-center align-items-center gap-3 w-50 m-2">
+                    <div class="col d-flex justify-content-center align-items-center">
+                         <div>
+                              <h2>Atencion al cliente</h2>
+                              <div class="d-flex justify-content-center align-items-center">
+                                   <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#chat">Comenzar chat</button>
+                              </div>
+                         </div>
+                    </div>
                </div>
                <!-- Modal -->
                <div class="modal fade" id="chat" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -105,6 +116,7 @@
      <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
      <script src="/socket.io/socket.io.js"></script> <!--?Importante incorporar este script-->
      <script type="module" src="/script/chat.js"></script>
+     <script type="module" src="/script/carrito.js"></script>
 </body>
 
 </html>

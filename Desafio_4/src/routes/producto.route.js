@@ -5,6 +5,7 @@ import Contenedor from "../managers/contenedor.js";
 
 const router = Router(); //inicializamos el route
 const object = new Contenedor ();
+
 router.get('/home', (req, res)=>{
     res.render('home', {nombre: 'juli'});
 })
@@ -14,24 +15,25 @@ router.get('/product', async(req, res)=>{
     console.log(consulta.length) //Devolvemos el array producto
     res.render('pages/producto',{product:consulta});
 })
+
 router.get('/allProduct', async(req, res)=>{
     let consulta = await object.getAll(); //convertimos a array 
     console.log(consulta.length) //Devolvemos el array producto
     res.send(consulta)
-    //res.render('pages/allProduct',{product:JSON.parse(consulta)});
+    res.render('pages/allProduct',{product:consulta});
 })
  
-router.get("/", async (req, res)=>{
-    //? Devuelve todos los productos
-    let consulta = await object.getAll(); //convertimos a array 
-    res.send(consulta);
-    console.log(consulta.length) //Devolvemos el array producto
-})
+// router.get("/", async (req, res)=>{
+//     //? Devuelve todos los productos
+//     let consulta = await object.getAll(); //convertimos a array 
+//     res.send(consulta);
+//     console.log(consulta.length) //Devolvemos el array producto
+// })
 router.get("/:id", async(req, res)=>{
     //? Devuelve un producto segun su id
     let parametro = req.params;
     let consulta = await object.getById(parametro.id);
-    res.send(consulta);
+    res.send(consulta.proload);
 })
 router.post("/", uploader.single('images') ,(req, res)=>{
     //? Recibe y agrega un producto, y lo devuelve con su id asignada
