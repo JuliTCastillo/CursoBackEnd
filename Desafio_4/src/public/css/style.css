@@ -93,3 +93,16 @@ li{
     border: rgb(170, 167, 167) solid 1px;
     border-radius: 20px;
 }
+.btnChat{
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    border-radius: 100%;
+    width: 70px;
+    height: 70px;
+    background-color: #1cb2e0;
+    border: none;
+}
+.btnChat:hover{
+    background-color: #6ad1f0;
+}

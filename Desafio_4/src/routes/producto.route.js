@@ -19,8 +19,7 @@ router.get('/product', async(req, res)=>{
 router.get('/allProduct', async(req, res)=>{
     let consulta = await object.getAll(); //convertimos a array 
     console.log(consulta.length) //Devolvemos el array producto
-    res.send(consulta)
-    res.render('pages/allProduct',{product:consulta});
+    res.send(consulta);
 })
  
 // router.get("/", async (req, res)=>{

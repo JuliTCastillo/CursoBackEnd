@@ -76,12 +76,15 @@ const comprar = async(event) =>{
     //a traves del evento obtenemos la id del producto que se esta seleccionando
     let response = await fetch(`/api/products/${event.path[0].id}`)
     let myJson = await response.json();
+
     //Pasamos el producto seleccionado con fetch
     await fetch(`/api/carrito/${idCarrito.proload}/productos`,{
         method:"POST", //indicamos el metodo
-        body: JSON.stringify(myJson), //pasamos a JSON el objeto
+        //TODO IMPORTANTE : AGREGAMOS EL [0] PORQUE CON SQLITE3 NOS DEVUELVE UN ARRAY
+        body: JSON.stringify(myJson[0]), // pasamos a JSON el objeto
         headers: {"Content-type": "application/json; charset=UTF-8"}
     }).then(result => result.json()).then(json=>console.log(json))
+   
     const contador = document.getElementById('contador');
     contador.innerText = parseInt(contador.textContent) + 1 
 }
@@ -101,7 +104,7 @@ const mostrarProductos = () =>{
             `
                 <div class='row gap-3 d-flex justify-content-center align-items-center bordeProduct'>
                     <div class= 'col-3'>
-                        <img src='${element.images}' alt='product' width='100%'>
+                        <img src='${element.image}' alt='product' width='100%'>
                     </div>
                     <div class= 'col-5'>
                         <h3>${element.name}</h3>

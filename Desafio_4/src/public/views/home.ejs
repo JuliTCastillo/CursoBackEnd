@@ -38,21 +38,36 @@
           <section>
                <h1>Ingresar Datos</h1>
                <form id="productForm">
-                    <div class="col w-50">
+                    <div class="col w-50 m-3">
                          <label class='form-label' for="name">Nombre del Producto</label>
                          <input class='form-control' type="text" name="name" id="name">
                     </div>
-                    <div class="col w-50">
-                         <label class='form-label' for="price">Precio</label>
-                         <input class='form-control' type="text" name="price" id="price">
+                    <div class="col w-50 m-3">
+                         <label for="description" class="form-label">Descripcion</label>
+                         <textarea class="form-control" id="description" name="description" rows="3"></textarea>
                     </div>
-                    <div class="col w-50">
-                         <label class='form-label' for="images">Ingrese la imagen</label>
-                         <input class='form-control' type="file" name="images" id="images">
+                    <div class="col w-50 m-3">
+                         <label class='form-label' for="image">Ingrese la imagen</label>
+                         <input class='form-control' type="file" name="image" id="image">
                     </div>
+                    <div class="row w-50">
+                         <div class="col w-50">
+                              <label class='form-label' for="price">Precio</label>
+                              <input class='form-control' type="number" name="price" id="price">
+                         </div>
+                         <div class="col w-50">
+                              <label class='form-label' for="stock">Stock</label>
+                              <input class='form-control' type="number" name="stock" id="stock">
+                         </div>
+                         <div class="col w-50">
+                              <label class='form-label' for="code">Codigo</label>
+                              <input class='form-control' type="text" name="code" id="code">
+                         </div>
+                    </div>
+                    
                     <button class="btn btn-success w-50 my-sm-3" type="submit" id="btnProduct">Enviar</button>
                </form>
-               <a class="btn btn-primary w-50" href="/api/products/product">Ir a tienda</a>
+               <a class="btn btn-primary w-50" href="/api/products/allProduct">Ir a tienda</a>
                
           </section>
           <section>
@@ -67,7 +82,13 @@
                                    <p class="text-center">Precio</p>
                               </div>
                               <div class="col d-flex justify-content-center align-items-center">
+                                   <p class="text-center">stock</p>
+                              </div>
+                              <div class="col d-flex justify-content-center align-items-center">
                                    <p class="text-center">Imagen</p>
+                              </div>
+                              <div class="col d-flex justify-content-center align-items-center">
+                                   <p class="text-center">Eliminar</p>
                               </div>
                          </div>
                          <div class="row" id="listProduct"></div>
@@ -76,16 +97,9 @@
           </section>
           <br>
           <section>
-               <div class="row d-flex justify-content-center align-items-center gap-3 w-50 m-2">
-                    <div class="col d-flex justify-content-center align-items-center">
-                         <div>
-                              <h2>Atencion al cliente</h2>
-                              <div class="d-flex justify-content-center align-items-center">
-                                   <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#chat">Comenzar chat</button>
-                              </div>
-                         </div>
-                    </div>
-               </div>
+          <button type="submit" class="btnChat" data-bs-toggle="modal" data-bs-target="#chat">
+               <i class='bx bx-message-rounded-detail bx-lg' style='color:#ffffff'></i>
+          </button>
                <!-- Modal -->
                <div class="modal fade" id="chat" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -115,8 +129,9 @@
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
      <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
      <script src="/socket.io/socket.io.js"></script> <!--?Importante incorporar este script-->
-     <script type="module" src="/script/chat.js"></script>
-     <script type="module" src="/script/carrito.js"></script>
+     <script type="module" src="/script/dbProductAndChat.js"></script>
+     <!-- <script type="module" src="/script/chat.js"></script> -->
+     <!-- <script type="module" src="/script/carrito.js"></script> -->
 </body>
 
 </html>

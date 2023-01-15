@@ -1,1 +1,57 @@
-[]
+[
+	{
+		"id": 0,
+		"product": [
+			{
+				"id": 17,
+				"name": "Regla",
+				"description": "Regla Mappe flexible de 20cm | colores disponible rosa y azul",
+				"image": "http://localhost:8080/imagen/1673652778497-reglas.jpg",
+				"code": "cod-04",
+				"price": 234,
+				"stock": 6
+			},
+			{
+				"id": 19,
+				"name": "Libro",
+				"description": "Libro bajo la misma estrella",
+				"image": "http://localhost:8080/imagen/1673808675637-libro.jpg",
+				"code": "COD-06",
+				"price": 3452,
+				"stock": 6
+			}
+		]
+	},
+	{
+		"id": 1,
+		"product": [
+			{
+				"id": 19,
+				"name": "Libro",
+				"description": "Libro bajo la misma estrella",
+				"image": "http://localhost:8080/imagen/1673808675637-libro.jpg",
+				"code": "COD-06",
+				"price": 3452,
+				"stock": 6
+			},
+			{
+				"id": 17,
+				"name": "Regla",
+				"description": "Regla Mappe flexible de 20cm | colores disponible rosa y azul",
+				"image": "http://localhost:8080/imagen/1673652778497-reglas.jpg",
+				"code": "cod-04",
+				"price": 234,
+				"stock": 6
+			},
+			{
+				"id": 16,
+				"name": "Lápices ",
+				"description": "Lápices de colores con protector",
+				"image": "http://localhost:8080/imagen/1673652399940-lapices.jpg",
+				"code": "cod-03",
+				"price": 674,
+				"stock": 56
+			}
+		]
+	}
+]

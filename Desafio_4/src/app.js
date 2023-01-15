@@ -1,10 +1,15 @@
 import express from "express";
-import productoRouter from "./routes/producto.route.js";
+//import productoRouter from "./routes/producto.route.js";
+import productRouter from './routes/product.router.js'
 import carritoRouter from './routes/carrito.route.js';
 import __dirname from "./utils.js";
 import {Server} from 'socket.io'; //?importamos el modulo de socket
+import db from './managers/dbProducto.js';
 
 const app = express();
+
+const tableProduct = new db('products');
+const tableMessage = new db('messages');
 
 //Le indicamos donde van estar guardadas nuestras vistas
 app.set('views', `${__dirname}/public/views`); //templay string
@@ -15,7 +20,8 @@ app.use(express.urlencoded({ extended : true }));
 app.use(express.static(__dirname + "/public"));//Le indicamos que vamos a trabajar con un sistema estatico
 
 //Conectamos nuestro programa principal con el router
-app.use("/api/products", productoRouter);
+//app.use("/api/products", productoRouter);
+app.use("/api/products", productRouter);
 app.use('/api/carrito', carritoRouter);
 
 //El USE es un MIDDLEWARE: Es decir que para en todos sus use para realizar el pedido que se esta pidiendo. Podemos crear nuestros MIDDLEWARE | un parametro importante es el next: Su funcionamiento es pasar al siguiente MIDDLEWARE.
@@ -24,18 +30,21 @@ const server = app.listen(PORT, ()=>console.log("Escuchando :)"));
 
 //? iniciamos el socket indicando el puerto que usamos
 const io = new Server(server);
-const message = []; //guarda los mensaje se envian
+//const message = []; //guarda los mensaje se envian
 
 //?el metodo .on se queda escuchando los evento del servidor 
-io.on('connection', socket =>{
+io.on('connection', async socket =>{
     console.log('connect socket');
     /*************
      * los emit y on, es la comunicacion que hay entre el usuario y el servidor
      * ? Van acompañado de el nombre de la accion y una variable que guarda el dato de la accion
      *************/
-    socket.on('message', data =>{
-        message.push(data);
-        io.emit('logs', message);
+    socket.on('message', async(data) =>{
+        // message.push(data);
+        await tableMessage.saveMessage(data);
+        let messages = await tableMessage.getAll();
+        console.log(messages.proload);
+        io.emit('logs', messages.proload);
     })
     socket.on('authenticated', data =>{
         //socket :  hablamos de una accion realizado por el usuario que tenemos
@@ -45,7 +54,5 @@ io.on('connection', socket =>{
     socket.on('product', data=>{
         console.log('Recibiendo evento')
     })
-    socket.on('newProduct', data =>{
-        io.emit('addProduct', data);
-    })
+    socket.on('newProduct', data => io.emit('addProduct'))
 })
