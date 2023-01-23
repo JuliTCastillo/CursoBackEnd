@@ -11,8 +11,8 @@ let carrito = false;
 let idCarrito;
 
 const eliminarProduct =async(event) =>{
-    console.log(event.path[0].id)
-    fetch(`/api/carrito/${idCarrito.proload}/productos/${event.path[0].id}`,{
+    console.log(event.target.id)
+    fetch(`/api/carrito/${idCarrito.proload}/productos/${event.target.id}`,{
         method:'DELETE'
     })
     .then(result => result.json()).then(json=>console.log(json));
@@ -73,8 +73,9 @@ const createCart = async() =>{
 const comprar = async(event) =>{
     //Si el carrito no esta creado | creamos uno
     if(!carrito) idCarrito = await createCart();
+    console.log(event.target.id)
     //a traves del evento obtenemos la id del producto que se esta seleccionando
-    let response = await fetch(`/api/products/${event.path[0].id}`)
+    let response = await fetch(`/api/products/${event.target.id}`)
     let myJson = await response.json();
 
     //Pasamos el producto seleccionado con fetch
@@ -83,7 +84,7 @@ const comprar = async(event) =>{
         //TODO IMPORTANTE : AGREGAMOS EL [0] PORQUE CON SQLITE3 NOS DEVUELVE UN ARRAY
         body: JSON.stringify(myJson[0]), // pasamos a JSON el objeto
         headers: {"Content-type": "application/json; charset=UTF-8"}
-    }).then(result => result.json()).then(json=>console.log(json))
+    }).then(result => result.json())
    
     const contador = document.getElementById('contador');
     contador.innerText = parseInt(contador.textContent) + 1 

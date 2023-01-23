@@ -21,6 +21,7 @@ router.get('/allProduct', async(req, res)=>{
 })
 
 router.get("/:id", async(req, res)=>{
+    console.log(req.params.id);
     let result = await object.getProduct(req.params.id);
     res.send(result.proload)
 })
