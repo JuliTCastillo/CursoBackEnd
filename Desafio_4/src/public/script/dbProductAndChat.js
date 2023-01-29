@@ -28,8 +28,9 @@ Swal.fire({
 })
 
 const deleteProduct = async(event) =>{
-    console.log(event.target.id);
-    fetch(`/api/products/${event.target.id}`,{
+    console.log('dentro de deleteProduct')
+    console.log('id que obtenemos',event.target.code);
+    await fetch(`/api/products/${event.target.id}`,{
         method:'DELETE'
     })
     .then(result => result.json()).then(json=>console.log(json));

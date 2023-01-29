@@ -12,10 +12,10 @@ let idCarrito;
 
 const eliminarProduct =async(event) =>{
     console.log(event.target.id)
+    console.log('id product de eliminarProduct', event.target.id)
     fetch(`/api/carrito/${idCarrito.proload}/productos/${event.target.id}`,{
         method:'DELETE'
     })
-    .then(result => result.json()).then(json=>console.log(json));
 
     //ocultamos el collapse de los productos
     collapseExample.removeAttribute('class')
@@ -39,7 +39,7 @@ const eliminarCarrito = async() =>{
     //Eliminamos el carrito
     await fetch(`/api/carrito/${idCarrito.proload}`,{
         method: 'DELETE'
-    }).then(result => result.json()).then(json=>console.log(json));
+    })
     //Ocultar collapse de lista de producto
     countProduct.classList.add('ocultar');
     collapseExample.removeAttribute('class')
@@ -73,58 +73,40 @@ const createCart = async() =>{
 const comprar = async(event) =>{
     //Si el carrito no esta creado | creamos uno
     if(!carrito) idCarrito = await createCart();
-    console.log(event.target.id)
     //a traves del evento obtenemos la id del producto que se esta seleccionando
     let response = await fetch(`/api/products/${event.target.id}`)
     let myJson = await response.json();
-
-    //Pasamos el producto seleccionado con fetch
+    const contador = document.getElementById('contador');
+    contador.innerText = parseInt(contador.textContent) + 1; 
+    
+    // Pasamos el producto seleccionado con fetch
     await fetch(`/api/carrito/${idCarrito.proload}/productos`,{
         method:"POST", //indicamos el metodo
         //TODO IMPORTANTE : AGREGAMOS EL [0] PORQUE CON SQLITE3 NOS DEVUELVE UN ARRAY
-        body: JSON.stringify(myJson[0]), // pasamos a JSON el objeto
+        body: JSON.stringify(myJson.proload[0]), // pasamos a JSON el objeto
         headers: {"Content-type": "application/json; charset=UTF-8"}
-    }).then(result => result.json())
-   
-    const contador = document.getElementById('contador');
-    contador.innerText = parseInt(contador.textContent) + 1 
+     }).then(result => result.json())
 }
 
 btnCart.addEventListener('click', e =>{
     mostrarProductos();
 })
 
-const mostrarProductos = () =>{
-    fetch(`/api/carrito/${idCarrito.proload}/productos`)
+const mostrarProductos = async() =>{
+    console.log('El id del carrito'+ idCarrito.proload)
+    await fetch(`/api/carrito/${idCarrito.proload}/productos`)
     .then(result => result.json())
     .then(json => {
-        let precioTotal=0;
-        listProduct.innerHTML = `<h2 class='text-center'>Lista de Productos</h2><hr>`;
-        json.forEach(element => {
-            listProduct.innerHTML+=
-            `
-                <div class='row gap-3 d-flex justify-content-center align-items-center bordeProduct'>
-                    <div class= 'col-3'>
-                        <img src='${element.image}' alt='product' width='100%'>
-                    </div>
-                    <div class= 'col-5'>
-                        <h3>${element.name}</h3>
-                        <p>precio: ${element.price}</p>
-                        <button class='btn btn-danger btnDelete' id='${element.id}'>Eliminar</button>
-                    </div>
-                </div>
-            `
-            precioTotal+= parseInt(element.price);
-        });
+        let precioTotal = showProduct(json);
         //mostramos el precio total de los productos
         listProduct.innerHTML+= 
-        `
-            <hr>
-            <div>
-                <h3 class='text-center'>Precio Total: ${precioTotal}</h3>
-            </div>
-            <button class='btn btn-primary' id='btnDeleteCart'>Eliminar Carrito</button>
-        `
+            `
+                <hr>
+                <div>
+                    <h3 class='text-center'>Precio Total: ${precioTotal}</h3>
+                </div>
+                <button class='btn btn-primary' id='btnDeleteCart'>Eliminar Carrito</button>
+            `
         //creamos el evento de los botones
         const btnDelete = document.getElementsByClassName('btnDelete');
         for(let btn of btnDelete) {
@@ -134,6 +116,27 @@ const mostrarProductos = () =>{
         const btnDeleteCart = document.getElementById('btnDeleteCart');
         btnDeleteCart.addEventListener('click', eliminarCarrito)
     })
+}
+const showProduct = (object) =>{
+    let precioTotal=0;
+    listProduct.innerHTML = `<h2 class='text-center'>Lista de Productos</h2><hr>`;
+    object.forEach(element => {
+        listProduct.innerHTML+=
+        `
+            <div class='row gap-3 d-flex justify-content-center align-items-center bordeProduct'>
+                <div class= 'col-3'>
+                    <img src='${element.image}' alt='product' width='100%'>
+                </div>
+                <div class= 'col-5'>
+                    <h3>${element.name}</h3>
+                    <p>precio: ${element.price}</p>
+                    <button class='btn btn-danger btnDelete' id='${element.code}'>Eliminar</button>
+                </div>
+             </div>
+        `
+        precioTotal+= parseInt(element.price);
+    });
+    return precioTotal;
 }
 
 //! Crea el evento a todos los botones que tengan la clase btnBuyProduct

@@ -1,10 +1,10 @@
 //importamos todo el modulo | utilizando la llaves
 import { Router } from "express";
 import { uploader } from "../utils.js"
-import Contenedor from "../managers/dbProducto.js";
+import {objectProduct} from '../dao/index.js';
 
 const router = Router(); //inicializamos el route
-const object = new Contenedor ('products');
+const object = new objectProduct();
 
 router.get('/home', (req, res)=>{
     res.render('home');
@@ -21,9 +21,9 @@ router.get('/allProduct', async(req, res)=>{
 })
 
 router.get("/:id", async(req, res)=>{
-    console.log(req.params.id);
+    console.log('router get'+req.params.id);
     let result = await object.getProduct(req.params.id);
-    res.send(result.proload)
+    res.send(result)
 })
 router.post("/", uploader.single('image'), async(req, res)=>{
     //? Recibe y agrega un producto, y lo devuelve con su id asignada
@@ -38,7 +38,9 @@ router.put("/:id",uploader.single('images') , async (req, res)=>{
     
 })
 router.delete("/:id",async(req, res)=>{
+    console.log(req.params.id);
     let result = await object.deleteProduct(req.params.id);
+    console.log(result);
     res.send({status: "success", payload: result})
 })
 

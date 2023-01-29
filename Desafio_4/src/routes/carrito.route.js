@@ -1,10 +1,9 @@
 //importamos todo el modulo | utilizando la llaves
 import { Router } from "express";
-import Carrito from "../managers/carrito.js";
-
+import {objectCart} from '../dao/index.js';
 
 const router = Router(); //inicializamos el route
-const objeto = new Carrito();
+const objeto = new objectCart();
 let idUsuario = -1;//Para guardar la id del carrito del usuario
 
 //* Crea un carrito y devuelve su id
@@ -22,15 +21,14 @@ router.delete('/:id',async(req, res)=>{
 //* Lista todos los productos al carrito por su id de producto
 router.get('/:id/productos', async(req, res)=>{
     let id = req.params.id;
-    let listProduct = await objeto.getAll(id);
-    console.log(listProduct)
-    res.send(listProduct.proload);
+    let listProduct = await objeto.getProduct(id);
+    res.send(listProduct);
 })
 //* Incorpora productos al carrito por su id de carrito y de producto
 router.post('/:id/productos', async(req, res) =>{
     let id = req.params.id;
-    const product = req.body;
-    let response = await objeto.addProduct(id, JSON.stringify(product));
+    let product = req.body;
+    let response = await objeto.addProduct(id, product);
     res.send(response)
 })
 //* Elimina un producto del carrito por su id de carrito y de producto

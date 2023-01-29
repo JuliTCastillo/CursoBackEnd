@@ -4,7 +4,7 @@ import productRouter from './routes/product.router.js'
 import carritoRouter from './routes/carrito.route.js';
 import __dirname from "./utils.js";
 import {Server} from 'socket.io'; //?importamos el modulo de socket
-import db from './managers/dbProducto.js';
+import db from './dao/sqlite/dbProducto.js';
 
 const app = express();
 
