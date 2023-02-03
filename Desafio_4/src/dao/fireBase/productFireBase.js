@@ -1,5 +1,5 @@
 import admin from 'firebase-admin';
-import claveJson from '../ClaveEcommerceLibrary.json' assert {type: 'json'};
+// import claveJson from '../ClaveEcommerceLibrary.json' assert {type: 'json'};
 
 class ProductDAOFirebase {
     constructor(){

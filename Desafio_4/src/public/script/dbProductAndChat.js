@@ -6,26 +6,56 @@ const msg = document.getElementById('msg'); //Div que se encuentra en el modal-b
 const chatBox = document.getElementById('chatBox')
 const listProduct = document.getElementById('listProduct');
 const btnCarrito = document.getElementById('btnCarrito');
+let estado = true;
+let user = [];
 
-let user;
 //TODO: INGRESO DE USUARIO - VALIDAMOS EL NOMBRE Y MOSTRAMOS PRODUCTOS
-Swal.fire({
-    title: 'Identificate', //titulo del alert
-    input: 'text', //Indicamos el control que queremos usar
-    inputValidator: (value) =>{
-        /*******************
-         * Valida lo que se ingreso en el input
-         * ? si value(guarda lo que se ingreso) no tiene nada, le mandamos el mensaje
-         *******************/
-        return !value && 'Necesito que ingrese un nombre para seguir!';
-    },
-    allowOutsideClick: false, //si hace click el alert no se va
-}).then(result =>{
-    user = result.value; //guardamos el dato en una variable
-    socket.connect(); //nos conectamos al socket
-    socket.emit('authenticated', user);
-    mostrarProducto();
-})
+while(estado){
+    //Creamos una variable que guarde un array
+    const { value: formValues } = await Swal.fire({
+        title: 'Iniciar sesion',
+        html:
+        `
+            <div class='m-3'>
+                <label for='swal-input1' class='form-label d-block text-lg-start'>Ingrese su nombre</label>
+                <input id="swal-input1" class="swal2-input m-0 w-100">
+            </div>
+            <div class='m-3'>
+                <label for='swal-input1' class='form-label d-block text-lg-start'>Ingrese su email</label>
+                <input id="swal-input2" class="swal2-input m-0 w-100">
+            </div>
+            <div id='error'></div>
+        `,
+        allowOutsideClick: false,
+        focusConfirm: false,
+        preConfirm: () => {
+            //Nos devuelve un array con el valor de los inputs
+            return [
+                document.getElementById('swal-input1').value,
+                document.getElementById('swal-input2').value
+            ]
+        }
+    }) 
+    //Verificamos si los arrays contiene algun texto
+    if (formValues[0] !== '' && formValues[1] !== '') {
+        estado = false; //Colocamos el estado a falso para salir del while
+        //generamos un avatar para el usuario
+        formValues.push(`https://api.dicebear.com/5.x/micah/svg?seed=${formValues[0]}`)
+        user = formValues; //guardamos todo en nuestra variable user
+    }
+    else{ //en el caso que nuestro usuario no haya ingresado, le advertimos con un alert
+        await Swal.fire({
+            icon: 'error',
+            title: 'Campos Vacios',
+            text: 'Por favor, complete los campos vacio!',
+        })
+    }
+}
+
+//? una vez que se completaron los datos nos conetamos con el socket
+socket.connect(); //nos conectamos al socket
+socket.emit('authenticated', user);
+mostrarProducto();
 
 const deleteProduct = async(event) =>{
     console.log('dentro de deleteProduct')
@@ -36,7 +66,7 @@ const deleteProduct = async(event) =>{
     .then(result => result.json()).then(json=>console.log(json));
     await socket.emit('newProduct');
 }
-const mostrarProducto = async() =>{
+async function mostrarProducto(){
     await fetch("/api/products/product")
     .then(result => result.json())
     .then(json => {
@@ -112,7 +142,7 @@ chatBox.addEventListener(('keyup' || 'submit'), evt =>{
     if(evt.key === 'Enter' || evt.keyCode ===13){
         if(chatBox.value.trim().length>0){ //eliminamos los espacios del mensaje
             //Emite un evento del socket | por cada emit tiene que haber un on que lo escuche
-            socket.emit('message', {autor : user, text: chatBox.value.trim()});
+            socket.emit('message', {autor: {id: user[1], name : user[0], email: user[1],avatar:user[2]}, text: {message : chatBox.value.trim()}});
             chatBox.value = ''; 
         }
     }
@@ -120,23 +150,32 @@ chatBox.addEventListener(('keyup' || 'submit'), evt =>{
 const designMessage = (data) =>{
     let html= '';
     data.forEach(msgs => {
-        if(msgs.autor !== user){
+        console.log('a',msgs)
+        if(msgs.autor.name !== user[0]){
             html = `
-            <div class='userMessage'>
-                <p>${msgs.autor}</p>
-                <p class='designMessage'>${msgs.text}</p> 
+            <div class='userMessage d-flex'>
+                <div>
+                    <img src='${msgs.autor.avatar}' alt='avatar' width="40">
+                </div>
+                <div>
+                    <p>${msgs.autor.name}</p>
+                    <p class='designMessage'>${msgs.text.message}</p> 
+                </div>
                 <br/>
             </div>
             `
         }
         else{
             html = `
-            <div class='messageRight'>
+            <div class='messageRight d-flex justify-content-end'>
                 <div>
-                    <p>${msgs.autor}</p>
-                    <p class='designMessage color'>${msgs.text}</p> 
-                    <br/>
+                    <p>${msgs.autor.name}</p>
+                    <p class='designMessage'>${msgs.text.message}</p> 
                 </div>
+                <div>
+                    <img src='${msgs.autor.avatar}' alt='avatar' width="40">
+                </div>
+                <br/>
             </div>
             `
         }
@@ -147,7 +186,7 @@ const designMessage = (data) =>{
 //Todo: SOCKET ESCUCHANDO EVENTOS
 //Creamos este socket.on para que escuche el emit del servidor
 socket.on('logs', data =>{
-    console.log(data)
+    console.log('estamos en logs')
     let message = designMessage(data); 
     //realizamos un for parra que se muestre los mensajes de los usuarios | agregamos diseño
     msg.innerHTML += message;
@@ -157,5 +196,6 @@ socket.on('addProduct', async data =>{
 })
 socket.on('newUserConnected', data =>{
     if(!user) return;
-    msg.innerHTML += `<p class='logIn'>${data} se ha unido al chat</p>`
+    console.log('newUser',data)
+    msg.innerHTML += `<p class='logIn'>${data[0]} se ha unido al chat</p>`
 })

@@ -4,12 +4,14 @@ import productRouter from './routes/product.router.js'
 import carritoRouter from './routes/carrito.route.js';
 import __dirname from "./utils.js";
 import {Server} from 'socket.io'; //?importamos el modulo de socket
-import db from './dao/sqlite/dbProducto.js';
+import {objectChat} from './dao/index.js'
+// import db from './dao/sqlite/dbProducto.js';
 
 const app = express();
 
-const tableProduct = new db('products');
-const tableMessage = new db('messages');
+// const tableProduct = new db('products');
+// const tableMessage = new db('author');
+const object = new objectChat();
 
 //Le indicamos donde van estar guardadas nuestras vistas
 app.set('views', `${__dirname}/public/views`); //templay string
@@ -41,10 +43,9 @@ io.on('connection', async socket =>{
      *************/
     socket.on('message', async(data) =>{
         // message.push(data);
-        await tableMessage.saveMessage(data);
-        let messages = await tableMessage.getAll();
-        console.log(messages.proload);
-        io.emit('logs', messages.proload);
+        await object.save(data);
+        let messages = await object.getAll();
+        io.emit('logs', messages);
     })
     socket.on('authenticated', data =>{
         //socket :  hablamos de una accion realizado por el usuario que tenemos
