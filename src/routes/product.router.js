@@ -36,7 +36,7 @@ router.get('/allProduct', async(req, res)=>{
     res.render('pages/producto',{product:result.proload});
 })
 router.get("/:id", async(req, res)=>{
-    console.log('router get    '+req.params.id);
+    console.log('router get '+req.params.id);
     let result = await object.getProduct(req.params.id);
     res.send(result)
 })
