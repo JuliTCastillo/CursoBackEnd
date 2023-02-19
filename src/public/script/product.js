@@ -7,7 +7,6 @@ btnLess.addEventListener('click', event =>{
     let valor = btnCount.value;
     
     if(valor > 0) btnCount.value = parseInt(btnCount.value) - 1;
-    else console.log('no se admine valores negativos')
 })
 
 btnBig.addEventListener('click', async event =>{
@@ -22,5 +21,14 @@ btnBig.addEventListener('click', async event =>{
 
     //validadmos el stock
     if(valor < parseInt(product.stock)) btnCount.value = parseInt(btnCount.value) + 1;
-    else console.log('No hay mas stock del producto')
+    else {
+        Swal.fire({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 4000,
+            title: 'Llegaste al limite del stock',
+            icon: 'error'
+        })
+    }
 })

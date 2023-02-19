@@ -5,11 +5,8 @@ class CartDAOMongo{
     constructor(){
         this.connect();
     }
-    connect = () =>{
-        const connection = mongoose.connect('mongodb+srv://ecommerceLibrery:123Library@ecommercelibrary.aqiseu9.mongodb.net/product?retryWrites=true&w=majority', err =>{
-            if(err) console.log(err);
-            else console.log('base conectada');
-        })
+    connect = (connect) =>{
+        const connection = mongoose.connect('mongodb+srv://ecommerceLibrery:123Library@ecommercelibrary.aqiseu9.mongodb.net/product?retryWrites=true&w=majority')
     }
     save = async() =>{
         let insert = await cartModel.create({});

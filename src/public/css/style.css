@@ -50,12 +50,15 @@ li{
 .logIn{
     text-align: center;
 }
+.login{
+    z-index: 99;
+}
 .designContador{
     margin: 0;
     position: absolute;
     bottom: 0px;
     right: 0px;
-    background-color: gray;
+    background-color: rgb(128, 128, 128);
     width: 25px;
     height: 25px;
     color: black;
@@ -67,8 +70,18 @@ li{
     position: absolute;
     right: 0;
     width: 600px;
+    z-index: 99;
 }
-
+.designCollapseLogin{
+    position: absolute;
+    width: 300px;
+    right: 0;
+    z-index: 99;
+}
+.posicionLogin{
+    width: 300px;
+    padding: 20px;
+}
 .textProduct{
     margin-top: 10px;
     padding: 10px;
@@ -113,7 +126,7 @@ li{
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    background-color: #05467200;
+    background-color: #ffffff;
     border: none;
 }
 

@@ -15,5 +15,8 @@ router.get('/tienda/product/:id', async(req, res)=>{
     res.render('pages/product',{product:result.proload});
 })
 
+router.get('/user/register', (req, res)=>{
+    res.render('pages/register');
+})
 
 export default router;

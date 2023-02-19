@@ -1,10 +1,13 @@
 import express from "express";
+// import session from "express-session";
 import productRouter from './routes/product.router.js'
 import carritoRouter from './routes/carrito.route.js';
+import userRouter from './routes/user.router.js'
 import viewsRouter from './routes/views.router.js'
 import __dirname from "./utils.js";
 import {Server} from 'socket.io'; //?importamos el modulo de socket
 import {objectChat} from './dao/index.js'
+// import MongoStore from "connect-mongo";
 
 const app = express();
 
@@ -14,6 +17,16 @@ const object = new objectChat();
 app.set('views', `${__dirname}/public/views`); //templay string
 app.set('view engine', 'ejs');
 
+// app.use(session({
+//     store: MongoStore.create({
+//         mongoUrl:'mongodb+srv://ecommerceLibrery:123Library@ecommercelibrary.aqiseu9.mongodb.net/product?retryWrites=true&w=majority',
+//         ttl: 360
+//     }),
+//     secret:'s3cr3tS3ss1onLibr3r1a',
+//     resave:false,
+//     saveUninitialized:false
+// }))
+
 app.use(express.json()); //le indicamos que procese json
 app.use(express.urlencoded({ extended : true }));
 app.use(express.static(__dirname + "/public"));//Le indicamos que vamos a trabajar con un sistema estatico
@@ -22,6 +35,7 @@ app.use(express.static(__dirname + "/public"));//Le indicamos que vamos a trabaj
 //app.use("/api/products", productoRouter);
 app.use("/api/products", productRouter);
 app.use('/api/carrito', carritoRouter);
+app.use('/api/user', userRouter)
 app.use('/', viewsRouter);
 
 //El USE es un MIDDLEWARE: Es decir que para en todos sus use para realizar el pedido que se esta pidiendo. Podemos crear nuestros MIDDLEWARE | un parametro importante es el next: Su funcionamiento es pasar al siguiente MIDDLEWARE.

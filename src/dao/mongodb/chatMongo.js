@@ -7,10 +7,7 @@ class ChatDAOMongo{
         this.connect();
     }
     connect = () =>{
-        mongoose.connect('mongodb+srv://ecommerceLibrery:123Library@ecommercelibrary.aqiseu9.mongodb.net/product?retryWrites=true&w=majority', err =>{
-            if(err) console.log(err);
-            else console.log('base conectada');
-        })
+        const connection = mongoose.connect('mongodb+srv://ecommerceLibrery:123Library@ecommercelibrary.aqiseu9.mongodb.net/product?retryWrites=true&w=majority')
     }
     save = async(object) =>{
         let result = await cartModel.create(object);

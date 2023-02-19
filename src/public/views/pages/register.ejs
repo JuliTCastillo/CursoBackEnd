@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <title>Resgistro</title>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark w-100">
+             <ul class="d-flex w-100 justify-content-end align-items-center m-3">
+                    <li class="nav-item pe-sm-5">
+                        <a class="nav-link" href="/tienda">Tienda</a>
+                    </li>
+                    <li class="nav-item pe-sm-5">
+                        <a class="nav-link" href="/user/register">Resgistrarse</a>
+                    </li>
+                    <li class="nav-item pe-sm-5">
+                        <a data-bs-toggle="collapse" data-bs-target="#collapseLogin" aria-expanded="false" aria-controls="collapseLogin">
+                            <i class='bx bx-user-circle bx-lg' style='color:#fdf7f7'></i>
+                        </a>
+                    </li>
+                    <li id="cart">
+                        <div class='d-flex justify-content-center align-items-center position-relative ocultar pe-sm-3' id="countProduct">
+                            <button id='btnCart' style='background: #ff000000; border: none;'  type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                <i class='bx bxs-cart bx-md' style='color:#ffffff'></i>
+                                <p class='designContador' id='contador'>0</p>
+                            </button>
+                        </div>
+                        <div id="divBtnCart">
+                            <button type="submit" class="btn btn-success" id="btnCarrito">Comenzar compra</button>
+                        </div>
+                    </li>
+             </ul>
+        </nav>
+   </header>
+
+   <main>
+        <div class="collapse designCollapse" id="collapseExample">
+            <div class="card card-body textProduct" id="listProduct">
+                <p>No hay productos</p>
+            </div>
+        </div>
+        <div class="collapse designCollapseLogin" id="collapseLogin">
+            <div class="card posicionLogin" id="listProduct">
+                <h2 class="text-center">Login</h2>
+                <form action="">
+                    <input class="form-control" placeholder="Ingrese su nombre" type="text" name="name" id="name">
+                    <br>
+                    <input class="form-control" placeholder="Ingrese su contraseña" type="password" name="password" id="password">
+                    <br>
+                    <input type="button" class="btn btn-primary" value="Iniciar">
+                </form>
+            </div>
+        </div>
+        <section class="position-relative">
+            <div class="d-flex justify-content-center align-items-center">
+                <div class="col-5 shade p-4 login m-5">
+                    <h2 class="text-center mt-md-4">Registro</h2>
+                    <form id="formRegister">
+                        <label class="form-label mt-md-4" for="firstName">Nombre</label>
+                        <input class="form-control" placeholder="Ingrese su nombre" type="text" name="firstName" id="firstName" >
+                        <label class="form-label mt-md-4" for="lastName">Apellido</label>
+                        <input class="form-control" placeholder="Ingrese su nombre" type="text" name="lastName" id="lastName" >
+                        <label class="form-label mt-md-4" for="email">Email</label>
+                        <input class="form-control" placeholder="Ingrese su email" type="text" name="email" id="email" >
+                        <label class="form-label mt-md-4" for="PasswordUser">Contraseña</label>
+                        <input class="form-control" placeholder="Ingrese su contraseña" type="password" name="passwordUser" id="passwordUser" >
+                        <input type="submit" class="btn btn-primary w-100 mt-md-4" value="Registrarse">
+                    </form>
+                </div>
+                <div class="position-absolute" style="right:18.5%; bottom: 5%;">
+                    <img src="../../imagen/Authentication-pana.png" alt="illustration" width="800">
+                </div>
+            </div>
+            
+        </section>
+   </main>
+   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+   <!-- JavaScript Bundle with Popper -->
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+   <script src="../../script/register.js"></script>
+</body>
+</html>

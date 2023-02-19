@@ -33,14 +33,13 @@
                </ul>
           </nav>
      </header>
-
      <div class="m-5">
           <section>
                <h1>Ingresar Datos</h1>
                <form id="productForm">
                     <div class="col w-50 m-3">
                          <label class='form-label' for="name">Nombre del Producto</label>
-                         <input class='form-control' type="text" name="name" id="name">
+                         <input class='form-control' type="text" name="name" id="name" required>
                     </div>
                     <div class="col w-50 m-3">
                          <label for="description" class="form-label">Descripcion</label>
@@ -48,26 +47,25 @@
                     </div>
                     <div class="col w-50 m-3">
                          <label class='form-label' for="image">Ingrese la imagen</label>
-                         <input class='form-control' type="file" name="image" id="image">
+                         <input class='form-control' type="file" name="image" id="image" required>
                     </div>
                     <div class="row w-50">
                          <div class="col w-50">
                               <label class='form-label' for="price">Precio</label>
-                              <input class='form-control' type="number" name="price" id="price">
+                              <input class='form-control' type="number" name="price" id="price" required> 
                          </div>
                          <div class="col w-50">
                               <label class='form-label' for="stock">Stock</label>
-                              <input class='form-control' type="number" name="stock" id="stock">
+                              <input class='form-control' type="number" name="stock" id="stock" required>
                          </div>
                          <div class="col w-50">
                               <label class='form-label' for="code">Codigo</label>
-                              <input class='form-control' type="text" name="code" id="code">
+                              <input class='form-control' type="text" name="code" id="code" required>
                          </div>
                     </div>
-                    
                     <button class="btn btn-success w-50 my-sm-3" type="submit" id="btnProduct">Enviar</button>
                </form>
-               <a class="btn btn-primary w-50" href="/api/products/allProduct">Ir a tienda</a>
+               <a class="btn btn-primary w-50" href="/tienda">Ir a tienda</a>
                
           </section>
           <section>
@@ -89,6 +87,9 @@
                               </div>
                               <div class="col d-flex justify-content-center align-items-center">
                                    <p class="text-center">Eliminar</p>
+                              </div>
+                              <div class="col d-flex justify-content-center align-items-center">
+                                   <p class="text-center">Modificar</p>
                               </div>
                          </div>
                          <div class="row" id="listProduct"></div>
