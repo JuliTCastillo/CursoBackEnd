@@ -3,9 +3,11 @@ import {objectUSer} from '../dao/index.js';
 import { createHash } from "../utils.js";
 import { validatePassword } from "../utils.js";
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+dotenv.config('../../.env')
 
 const router = Router(); //inicializamos el route
-const obj = new objectUSer();
+const obj = objectUSer;
 
 router.post('/', async(req, res)=>{
     console.log(req.body)
@@ -32,10 +34,12 @@ router.post('/login', async(req,res)=>{
         role: result.role,
         name:` ${result.firstName} ${result.lastName}`,
         avatar: result.avatar,
-      };
-      const token = jwt.sign(tokenizedUser, 'config.jwt.SECRET', { expiresIn: "1d" });
+    };
 
-    res.send({status:'success', proload: 'Usuario conectado', payload: result, token : token})
+    const token = jwt.sign(tokenizedUser, process.env.JWT_SECRET, {expiresIn: "1d" });
+    res.cookie('userConnect', token);
+
+    res.send({status:'success', proload: 'Usuario conectado', payload: result})
 })
 
 export default router;

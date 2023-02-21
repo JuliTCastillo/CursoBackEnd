@@ -5,7 +5,7 @@ import {objectProduct, objectChat} from '../dao/index.js';
 import { generateProduct } from "../utils/mocks.js";
 
 const router = Router(); //inicializamos el route
-const object = new objectProduct();
+const object = objectProduct;
 
 router.get('/home', (req, res)=>{
     res.render('home');

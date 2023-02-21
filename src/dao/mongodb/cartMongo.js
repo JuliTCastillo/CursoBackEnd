@@ -2,11 +2,11 @@ import mongoose from "mongoose";
 import cartModel from "../models/modelCart.js";
 
 class CartDAOMongo{
-    constructor(){
-        this.connect();
+    constructor(connect){
+        this.connect(connect);
     }
     connect = (connect) =>{
-        const connection = mongoose.connect('mongodb+srv://ecommerceLibrery:123Library@ecommercelibrary.aqiseu9.mongodb.net/product?retryWrites=true&w=majority')
+        const connection = mongoose.connect(connect)
     }
     save = async() =>{
         let insert = await cartModel.create({});

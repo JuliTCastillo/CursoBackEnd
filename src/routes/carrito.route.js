@@ -3,7 +3,7 @@ import { Router } from "express";
 import {objectCart} from '../dao/index.js';
 
 const router = Router(); //inicializamos el route
-const objeto = new objectCart();
+const objeto = objectCart;
 let idUsuario = -1;//Para guardar la id del carrito del usuario
 
 //* Crea un carrito y devuelve su id

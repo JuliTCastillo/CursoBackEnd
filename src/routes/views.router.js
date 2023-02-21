@@ -1,13 +1,15 @@
 import {Router} from 'express';
 import {objectProduct, objectChat} from '../dao/index.js';
+import { verifyUser } from '../../middleware/verifyUser.middleware.js';
 
 const router = Router();
-const object = new objectProduct();
+const object =objectProduct;
 
 router.get('/tienda', async(req, res)=>{
     let result = await object.getAll();
     res.render('pages/products',{product:result.proload});
 })
+router.get('/a', verifyUser);
 
 router.get('/tienda/product/:id', async(req, res)=>{
     let id = req.params.id;
