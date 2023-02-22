@@ -33,6 +33,10 @@ class ProductDAOMongo{
         let result = await productModel.deleteOne({code: code});
         return {status: 'success', proload: result};
     }
+    updateStock = async(idProduct, stock) =>{
+        let result = await cartModel.updateOne({_id:idProduct},{$set:{stock: stock}})
+        return {status: 'success', proload: result};
+    }
 }
 
 export default ProductDAOMongo;

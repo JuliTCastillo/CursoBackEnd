@@ -3,6 +3,7 @@ const iconLogin = document.getElementById('iconLogin');
 const divBtnCart = document.getElementById('divBtnCart');
 const countProduct = document.getElementById('countProduct');
 const btnCarrito = document.getElementById('btnCarrito');
+const contador = document.getElementById('contador');
 
 const verifyUser = async () => {
     let answer;
@@ -18,6 +19,7 @@ const verifyUser = async () => {
             <p class='text-center m-1'>${data.name}
         `
         await verifyCart(data)
+        if(data.idCart !== '') await infoCart(data.idCart);
     }
     else {
         iconLogin.innerHTML =
@@ -25,10 +27,9 @@ const verifyUser = async () => {
     }
 }
 
-const verifyCart = async (userConnect) => {
+const verifyCart = async () => {
     let data;
     await fetch(`/api/user/data`).then(result => result.json()).then(json => { data = json.payload });
-    console.log('soy la data de verifyCart ', data)
 
     if (data.idCart === '') {
         divBtnCart.innerHTML = '<button type="submit" class="btn btn-success" id="btnCarrito">Comenzar compra</button>'
@@ -41,5 +42,13 @@ const verifyCart = async (userConnect) => {
 
 }
 
+const infoCart = async(idCart) =>{
+    let data;
+    await fetch(`/api/carrito/${idCart}`)
+    .then(result => result.json())
+    .then(json => {data = json.proload[0]})
+
+    contador.innerText = data.count;
+}
 
 let data = verifyUser()

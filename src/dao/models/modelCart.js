@@ -6,6 +6,10 @@ const schema = new mongoose.Schema({
     product: {
         type: Array,
         require: true
+    },
+    count: {
+        type: Number,
+        default: 0
     }
 })
 

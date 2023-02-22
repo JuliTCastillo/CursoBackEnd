@@ -22,8 +22,8 @@ const userConfig = (user)=>{
     iconLogin.classList.add('d-none'); 
     iconUser.innerHTML = 
     `
-        <img src='${user.avatar}' width='40'>
-        <p class='text-center m-1'>${user.firstName}
+        <img class='d-flex justify-content-center align-items-center p-0 m-auto'src='${user.avatar}' width='40'>
+        <p class='text-center m-1'>${user.name}
     `
 }
 formLogin.addEventListener('submit', async(event) =>{

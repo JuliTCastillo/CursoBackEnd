@@ -49,6 +49,12 @@ router.post("/", uploader.single('image'), async(req, res)=>{
     console.log(result)
     res.send(result);
 })
+router.put("/:idProduct/:stock", async (req, res)=>{
+    let idProduct = req.params.idProduct;
+    let stock = req.params.stock;
+
+    res.send({status: "success", payload: idProduct})
+})
 router.put("/:id",uploader.single('images') , async (req, res)=>{})
 router.delete("/:id",async(req, res)=>{
     console.log(req.params.id);

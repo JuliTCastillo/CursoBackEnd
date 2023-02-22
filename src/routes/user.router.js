@@ -39,7 +39,7 @@ router.post('/login', async(req,res)=>{
 
     const token = jwt.sign(tokenizedUser, config.JWT.secret, {expiresIn: "1d" });
     res.cookie('userConnect', token);
-    res.send({status:'success', proload: 'Usuario conectado', payload: result})
+    res.send({status:'success', proload: 'Usuario conectado', payload: tokenizedUser})
 })
 router.get('/updateData/:data', (req, res)=>{
     let data = req.params.data;

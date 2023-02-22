@@ -5,14 +5,26 @@ const countProduct = document.getElementById('countProduct')
 const btnCart = document.getElementById('btnCart')
 const divBtnCart = document.getElementById('divBtnCart');
 const collapseExample = document.getElementById('collapseExample');
+const btnComprar = document.getElementById('btnComprar')
 
 let carrito = false;
 let idCarrito;
+const finalizarComprar = async(event) =>{
+    let infoUser, infoProduct;
+    await fetch(`/api/user/verifyUser`).then(result => result.json()).then(json=> {infoUser = json.payload});
+    await fetch(`/api/carrito/${infoUser.idCart}/productos`).then(result => result.json()).then(json => {infoProduct = json})
+
+    infoProduct.forEach(element => {
+        console.log(element.id, ' ', element.stock, ' ', element.count);
+    });
+    //await fetch(`/api/products/:idProduct/:stock1`).then(result => result.json()).then(json=> {infoUser = json.payload});
+}
 
 const eliminarProduct =async(event) =>{
-    console.log(event.target.id)
-    console.log('id product de eliminarProduct', event.target.id)
-    fetch(`/api/carrito/${idCarrito.proload}/productos/${event.target.id}`,{
+    let infoUser;
+    await fetch(`/api/user/verifyUser`).then(result => result.json()).then(json=> {infoUser = json.payload});
+
+    fetch(`/api/carrito/${infoUser.idCart}/productos/${event.target.id}`,{
         method:'DELETE'
     })
 
@@ -35,10 +47,12 @@ const eliminarProduct =async(event) =>{
     contador.innerText = parseInt(contador.textContent) - 1; 
 }
 const eliminarCarrito = async() =>{
+    let infoUser;
+    await fetch(`/api/user/verifyUser`).then(result => result.json()).then(json=> {infoUser = json.payload});
     //Eliminamos el carrito
-    await fetch(`/api/carrito/${idCarrito.proload}`,{
+    await fetch(`/api/carrito/${infoUser.idCart}`,{
         method: 'DELETE'
-    })
+    }).then(result => result.json()).then(json=> console.log(json));
     //Ocultar collapse de lista de producto
     countProduct.classList.add('ocultar');
     collapseExample.removeAttribute('class')
@@ -73,46 +87,28 @@ const createCart = async() =>{
     console.log('myJson ', myJson)
     return myJson;
 }
-
 const comprar = async(event) =>{
     let verifyUser;
     await fetch(`/api/user/verifyUser`).then(result => result.json()).then(json=> {verifyUser = json});
-    console.log('soy el verifyUser de comprar()',verifyUser)
     if(verifyUser.status === '400'){
         location.href = verifyUser.ruta;
     }
     else{
         let data = verifyUser.payload;
-        if(data.idCart === '') console.log('no hay carrito');
+        console.log('data de comprar() ', data)
+        if(data.idCart === '') data = await createCart();
         idCarrito = data.idCart;
         const idProduct = event.target.dataset.bsTarget;
         location.href = `/tienda/product/${idProduct}`
     }
-    //Si el carrito no esta creado | creamos uno
-    // if(!carrito) idCarrito = await createCart();
-    //a traves del evento obtenemos la id del producto que se esta seleccionando
-    // let response = await fetch(`/api/products/${event.target.id}`)
-    // let myJson = await response.json();
-    // const contador = document.getElementById('contador');
-    // contador.innerText = parseInt(contador.textContent) + 1; 
-    
-    // Pasamos el producto seleccionado con fetch
-    // await fetch(`/api/carrito/${idCarrito.proload}/productos`,{
-    //     method:"POST", //indicamos el metodo
-    //     //TODO IMPORTANTE : AGREGAMOS EL [0] PORQUE CON SQLITE3 NOS DEVUELVE UN ARRAY
-    //     body: JSON.stringify(myJson.proload[0]), // pasamos a JSON el objeto
-    //     headers: {"Content-type": "application/json; charset=UTF-8"}
-    //  }).then(result => result.json())
 }
-
-
 btnCart.addEventListener('click', e =>{
     mostrarProductos();
 })
-
 const mostrarProductos = async() =>{
-    console.log('El id del carrito'+ idCarrito.proload)
-    await fetch(`/api/carrito/${idCarrito.proload}/productos`)
+    let infoUser;
+    await fetch(`/api/user/verifyUser`).then(result => result.json()).then(json=> {infoUser = json.payload});
+    await fetch(`/api/carrito/${infoUser.idCart}/productos`)
     .then(result => result.json())
     .then(json => {
         let precioTotal = showProduct(json);
@@ -121,9 +117,10 @@ const mostrarProductos = async() =>{
             `
                 <hr>
                 <div>
-                    <h3 class='text-center'>Precio Total: ${precioTotal}</h3>
+                    <h3 class='text-center'>Precio Total: $${precioTotal}</h3>
                 </div>
-                <button class='btn btn-primary' id='btnDeleteCart'>Eliminar Carrito</button>
+                <button class='btn btn-success' id='btnComprar'>Comprar</button>
+                <button class='btn btn-primary mt-lg-2' id='btnDeleteCart'>Eliminar Carrito</button>
             `
         //creamos el evento de los botones
         const btnDelete = document.getElementsByClassName('btnDelete');
@@ -133,6 +130,8 @@ const mostrarProductos = async() =>{
         //creamos el evento del boton del carrito
         const btnDeleteCart = document.getElementById('btnDeleteCart');
         btnDeleteCart.addEventListener('click', eliminarCarrito)
+        const btnComprar = document.getElementById('btnComprar')
+        btnComprar.addEventListener('click', finalizarComprar)
     })
 }
 const showProduct = (object) =>{
@@ -147,8 +146,11 @@ const showProduct = (object) =>{
                 </div>
                 <div class= 'col-5'>
                     <h3>${element.name}</h3>
-                    <p>precio: ${element.price}</p>
-                    <button class='btn btn-danger btnDelete' id='${element.code}'>Eliminar</button>
+                    <div class='d-flex justify-content-between align-items-center'>
+                        <p>precio: ${element.price}</p>
+                        <p>cantidad: ${element.count}</p>
+                    </div>
+                    <button class='btn btn-danger btnDelete' id='${element.code}'>Eliminar Carrito</button>
                 </div>
              </div>
         `
@@ -156,21 +158,9 @@ const showProduct = (object) =>{
     });
     return precioTotal;
 }
-
-// const viewProduct = async(event) =>{
-//     const id = event.target.id;
-//     // Pasamos el producto seleccionado con fetch
-//     await fetch(`/tienda/product/${id}`,{
-//         method:"GET", //indicamos el metodo
-//     })
-// }
-
 //! Crea el evento a todos los botones que tengan la clase btnBuyProduct
 for(let btn of sendProduct) {
     btn.addEventListener("click", comprar)
 }
 
-// for(let btn of btnViews){
-//     btn.addEventListener("click", viewProduct)
-// }
 
