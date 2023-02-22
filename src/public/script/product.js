@@ -32,3 +32,8 @@ btnBig.addEventListener('click', async event =>{
         })
     }
 })
+
+btnBuy.addEventListener('click', async event =>{
+    const btnCount = document.getElementById('btnCount').value;
+    
+})

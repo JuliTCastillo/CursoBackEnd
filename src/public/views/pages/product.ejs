@@ -11,35 +11,7 @@
     <title>Document</title>
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark w-100">
-             <ul class="d-flex w-100 justify-content-end align-items-center m-3">
-                    <li class="nav-item pe-sm-5">
-                        <a class="nav-link" href="#">Tienda</a>
-                    </li>
-                    <li class="nav-item pe-sm-5">
-                        <a class="nav-link" href="/user/register">Resgistrarse</a>
-                    </li>
-                    <li class="nav-item pe-sm-5">
-                        <a id="iconUser" data-bs-toggle="collapse" data-bs-target="#collapseUser" aria-expanded="false" aria-controls="collapseUser"></a>
-                        <a id="iconLogin" data-bs-toggle="collapse" data-bs-target="#collapseLogin" aria-expanded="false" aria-controls="collapseLogin">
-                            <i class='bx bx-user-circle bx-lg' style='color:#fdf7f7'></i>
-                        </a>
-                    </li>
-                    <li id="cart">
-                        <div class='d-flex justify-content-center align-items-center position-relative ocultar pe-sm-3' id="countProduct">
-                            <button id='btnCart' style='background: #ff000000; border: none;'  type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                                <i class='bx bxs-cart bx-md' style='color:#ffffff'></i>
-                                <p class='designContador' id='contador'>0</p>
-                            </button>
-                        </div>
-                        <div id="divBtnCart">
-                            <button type="submit" class="btn btn-success" id="btnCarrito">Comenzar compra</button>
-                        </div>
-                    </li>
-             </ul>
-        </nav>
-   </header>
+    <%- include('header'); %>
    <main>
         <div class="collapse designCollapse" id="collapseExample">
             <div class="card card-body textProduct" id="listProduct">
@@ -76,7 +48,7 @@
                             <input type="button" value="+" id="btnBig" class="btn btn-outline-primary w-25">
                         </div>
                         <div class="d-flex justify-content-center align-items-center">
-                            <button class="btn btn-primary btnBuyProduct" id="<%=element.code%>" data-bs-target="<%=element.code%>">Comprar</button>
+                            <button class="btn btn-primary buyProduct" id="btnBuy" data-bs-target="<%=element.code%>">Comprar</button>
                         </div>
                     </div>
                 </div>

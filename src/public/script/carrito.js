@@ -1,12 +1,10 @@
 const btnCarrito = document.getElementById('btnCarrito');
-const cart = document.getElementById('cart');
 const listProduct = document.getElementById('listProduct');
 const sendProduct = document.getElementsByClassName('btnBuyProduct');
 const countProduct = document.getElementById('countProduct')
 const btnCart = document.getElementById('btnCart')
 const divBtnCart = document.getElementById('divBtnCart');
 const collapseExample = document.getElementById('collapseExample');
-// const btnViews = document.getElementsByClassName('btnViewProduct')
 
 let carrito = false;
 let idCarrito;
@@ -60,34 +58,53 @@ btnCarrito.addEventListener('click', async(e) =>{
     idCarrito = await createCart();
 })
 const createCart = async() =>{
+    let myJson;
+    console.log('INGRESAMOS A CREATECART()')
     //guardamos los datos recibido por el fetch en una variable | indicamos el metodo    
-    let response = await fetch('/api/carrito',{method:"POST"});
+    await fetch('/api/carrito',{method:"POST"}).then(result => result.json()).then(json=> {myJson = json});
+    console.log('salimos del fetch de carrito')
     //la informacion recibida la convertimos a json
-    let myJson = await response.json();
     //removemos el boton 
     divBtnCart.classList.add('ocultar'); 
     btnCarrito.classList.add('ocultarBoton');
     countProduct.classList.remove('ocultar')
     carrito = true; //funciona como una variable flag
+    console.log('A un paso del return');
+    console.log('myJson ', myJson)
     return myJson;
 }
+
 const comprar = async(event) =>{
+    let verifyUser;
+    await fetch(`/api/user/verifyUser`).then(result => result.json()).then(json=> {verifyUser = json});
+    console.log('soy el verifyUser de comprar()',verifyUser)
+    if(verifyUser.status === '400'){
+        location.href = verifyUser.ruta;
+    }
+    else{
+        let data = verifyUser.payload;
+        if(data.idCart === '') console.log('no hay carrito');
+        idCarrito = data.idCart;
+        const idProduct = event.target.dataset.bsTarget;
+        location.href = `/tienda/product/${idProduct}`
+    }
     //Si el carrito no esta creado | creamos uno
-    if(!carrito) idCarrito = await createCart();
+    // if(!carrito) idCarrito = await createCart();
     //a traves del evento obtenemos la id del producto que se esta seleccionando
-    let response = await fetch(`/api/products/${event.target.id}`)
-    let myJson = await response.json();
-    const contador = document.getElementById('contador');
-    contador.innerText = parseInt(contador.textContent) + 1; 
+    // let response = await fetch(`/api/products/${event.target.id}`)
+    // let myJson = await response.json();
+    // const contador = document.getElementById('contador');
+    // contador.innerText = parseInt(contador.textContent) + 1; 
     
     // Pasamos el producto seleccionado con fetch
-    await fetch(`/api/carrito/${idCarrito.proload}/productos`,{
-        method:"POST", //indicamos el metodo
-        //TODO IMPORTANTE : AGREGAMOS EL [0] PORQUE CON SQLITE3 NOS DEVUELVE UN ARRAY
-        body: JSON.stringify(myJson.proload[0]), // pasamos a JSON el objeto
-        headers: {"Content-type": "application/json; charset=UTF-8"}
-     }).then(result => result.json())
+    // await fetch(`/api/carrito/${idCarrito.proload}/productos`,{
+    //     method:"POST", //indicamos el metodo
+    //     //TODO IMPORTANTE : AGREGAMOS EL [0] PORQUE CON SQLITE3 NOS DEVUELVE UN ARRAY
+    //     body: JSON.stringify(myJson.proload[0]), // pasamos a JSON el objeto
+    //     headers: {"Content-type": "application/json; charset=UTF-8"}
+    //  }).then(result => result.json())
 }
+
 
 btnCart.addEventListener('click', e =>{
     mostrarProductos();

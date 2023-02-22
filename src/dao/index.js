@@ -6,8 +6,7 @@ import ProductDAOFirebase from './fireBase/productFireBase.js'
 import CartFileSystem from './fileSystem/CartFileSystem.js';
 import ProductFileSystem from './fileSystem/ProductFileSystem.js';
 import UserDAOMongo from './mongodb/userMongo.js';
-import dotenv from 'dotenv';
-dotenv.config('../../.env');
+import config from '../config/config.js';
 
 const bdd = 'Mongo'
 let objectProduct;
@@ -17,23 +16,22 @@ let objectUSer;
 
 switch( bdd){
     case 'Mongo':
-        const config = process.env.MONGO_CONNECT
-        objectProduct = new ProductDAOMongo(config);
-        objectCart = new CartDAOMongo(config);
-        objectChat = new ChatDAOMongo(config);
-        objectUSer = new UserDAOMongo(config);
+        objectProduct = new ProductDAOMongo(config.mongo.connect);
+        objectCart = new CartDAOMongo(config.mongo.connect);
+        objectChat = new ChatDAOMongo(config.mongo.connect);
+        objectUSer = new UserDAOMongo(config.mongo.connect);
     break;
     case 'Firebase':
         objectProduct = ProductDAOFirebase;
         objectCart = CartDAOFirebase;
-        objectChat = new ChatDAOMongo(config);
-        objectUSer = new UserDAOMongo(config);
+        objectChat = new ChatDAOMongo(config.mongo.connect);
+        objectUSer = new UserDAOMongo(config.mongo.connect);
     break;
     case 'FileSystem':
         objectProduct = ProductFileSystem;
         objectCart = CartFileSystem;
-        objectChat = new ChatDAOMongo(config);
-        objectUSer = new UserDAOMongo(config);
+        objectChat = new ChatDAOMongo(config.mongo.connect);
+        objectUSer = new UserDAOMongo(config.mongo.connect);
     break;
 }
 

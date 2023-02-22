@@ -1,13 +1,20 @@
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
-import userModel from '../src/dao/models/modelUser.js';
+import {objectUSer, objectProduct} from '../src/dao/index.js';
+import config from '../src/config/config.js';
 
-dotenv.config('../../.env')
 
 export const verifyUser = async(req, res, next) =>{
     const token = req.cookies['userConnect'];
-    const user = jwt.verify(token, process.env.JWT_SECRET);
+    if(token !== undefined){
+        const user = jwt.verify(token, config.JWT.secret);
+        console.log(user)
+        let result = await objectUSer.getById(user.id);
 
-    console.log(user)
-    next()
+        if(result !== null) return res.send({status: 'success', payload: user})
+        else return res.send({status: '401', ruta: 'No se encontro ningun usuario'});
+    }
+    else{
+        console.log('hola soy verifyuser ')
+        return res.send({status: '400', ruta: '/error/400'})
+    }
 }

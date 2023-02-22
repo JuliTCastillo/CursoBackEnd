@@ -15,8 +15,14 @@ class UserDAOMongo{
         return {status:'success', proload: insert}
     }
     getUser= async(email) =>{
+        console.log(email)
         let find = await userModel.findOne({email});
+        console.log(find)
         return find;
+    }
+    getById = async(id) =>{
+        let find = await userModel.findById(id);
+        return find
     }
 }
 
