@@ -27,6 +27,11 @@ app.use('/api/carrito', carritoRouter);
 app.use('/api/user', userRouter);
 app.use('/', viewsRouter);
 
+app.get('*', (req, res)=>{
+    req.logger.warn(`Se inteto ingresar a ${req.url} que no existe`);
+    res.render('pages/problems', {problem: 'Esta pagina no es disponible :(', error: '404'});
+})
+
 //El USE es un MIDDLEWARE: Es decir que para en todos sus use para realizar el pedido que se esta pidiendo. Podemos crear nuestros MIDDLEWARE | un parametro importante es el next: Su funcionamiento es pasar al siguiente MIDDLEWARE.
 const PORT = process.env.PORT || 8080; //?En el caso que tengamos un puerto lo tomamos, sino tenemos un puerto por defecto tomamos el 8080 | en glitch usa puertos distinto a 8080
 const server = app.listen(PORT, ()=>console.log("Escuchando :)"));

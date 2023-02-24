@@ -14,51 +14,51 @@ let estado = true;
 let user = [];
 
 //TODO: INGRESO DE USUARIO - VALIDAMOS EL NOMBRE Y MOSTRAMOS PRODUCTOS
-while (estado) {
-    //Creamos una variable que guarde un array
-    const { value: formValues } = await Swal.fire({
-        title: 'Iniciar sesion',
-        html:
-            `
-            <div class='m-3'>
-                <label for='swal-input1' class='form-label d-block text-lg-start'>Ingrese su nombre</label>
-                <input id="swal-input1" class="swal2-input m-0 w-100">
-            </div>
-            <div class='m-3'>
-                <label for='swal-input1' class='form-label d-block text-lg-start'>Ingrese su email</label>
-                <input id="swal-input2" class="swal2-input m-0 w-100">
-            </div>
-            <div id='error'></div>
-        `,
-        allowOutsideClick: false,
-        focusConfirm: false,
-        preConfirm: () => {
-            //Nos devuelve un array con el valor de los inputs
-            return [
-                document.getElementById('swal-input1').value,
-                document.getElementById('swal-input2').value
-            ]
-        }
-    })
-    //Verificamos si los arrays contiene algun texto
-    if (formValues[0] !== '' && formValues[1] !== '') {
-        estado = false; //Colocamos el estado a falso para salir del while
-        //generamos un avatar para el usuario
-        formValues.push(`https://api.dicebear.com/5.x/micah/svg?seed=${formValues[0]}`)
-        user = formValues; //guardamos todo en nuestra variable user
-    }
-    else { //en el caso que nuestro usuario no haya ingresado, le advertimos con un alert
-        await Swal.fire({
-            icon: 'error',
-            title: 'Campos Vacios',
-            text: 'Por favor, complete los campos vacio!',
-        })
-    }
-}
+// while (estado) {
+//     //Creamos una variable que guarde un array
+//     const { value: formValues } = await Swal.fire({
+//         title: 'Iniciar sesion',
+//         html:
+//             `
+//             <div class='m-3'>
+//                 <label for='swal-input1' class='form-label d-block text-lg-start'>Ingrese su nombre</label>
+//                 <input id="swal-input1" class="swal2-input m-0 w-100">
+//             </div>
+//             <div class='m-3'>
+//                 <label for='swal-input1' class='form-label d-block text-lg-start'>Ingrese su email</label>
+//                 <input id="swal-input2" class="swal2-input m-0 w-100">
+//             </div>
+//             <div id='error'></div>
+//         `,
+//         allowOutsideClick: false,
+//         focusConfirm: false,
+//         preConfirm: () => {
+//             //Nos devuelve un array con el valor de los inputs
+//             return [
+//                 document.getElementById('swal-input1').value,
+//                 document.getElementById('swal-input2').value
+//             ]
+//         }
+//     })
+//     //Verificamos si los arrays contiene algun texto
+//     if (formValues[0] !== '' && formValues[1] !== '') {
+//         estado = false; //Colocamos el estado a falso para salir del while
+//         //generamos un avatar para el usuario
+//         formValues.push(`https://api.dicebear.com/5.x/micah/svg?seed=${formValues[0]}`)
+//         user = formValues; //guardamos todo en nuestra variable user
+//     }
+//     else { //en el caso que nuestro usuario no haya ingresado, le advertimos con un alert
+//         await Swal.fire({
+//             icon: 'error',
+//             title: 'Campos Vacios',
+//             text: 'Por favor, complete los campos vacio!',
+//         })
+//     }
+// }
 
 //? una vez que se completaron los datos nos conetamos con el socket
 socket.connect(); //nos conectamos al socket
-socket.emit('authenticated', user);
+// socket.emit('authenticated', user);
 mostrarProducto();
 
 const deleteProduct = async (event) => {
@@ -197,13 +197,13 @@ btnModify.addEventListener('click', async(e)=>{
     data.forEach((value, key) => obj[key] = value);
     const idCode = document.getElementById('idCode');
 
-
+    console.log(obj)
     await fetch(`modifyProduct/${idCode.dataset.bsTarget}`, {
         method:'PUT',
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(obj)   
+        body: data
     }).then(result => result.json()).then(json => console.log(json));
 
+    await mostrarProducto();
 })
 //------------------------------------------------------
 

@@ -18,7 +18,12 @@
     <main class="d-flex justify-content-center align-items-center">
         <div class="m-4 text-center">
             <h2>Ups! Vemos que tuvimos un problema</h2>
-            <%- include('image400'); %>
+            <% if (error === '400') { %>
+                <%- include('image400'); %>
+            <% } %>
+            <% if (error === '404') { %>
+                <%- include('image404'); %>
+            <% } %>
             <h3>
                 <%=problem%>
             </h3>

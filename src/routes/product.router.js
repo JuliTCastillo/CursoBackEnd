@@ -3,13 +3,24 @@ import { Router } from "express";
 import { addLogger, uploader } from "../utils.js"
 import {objectProduct, objectChat, objectCart} from '../dao/index.js';
 import { generateProduct } from "../utils/mocks.js";
+import jwt from 'jsonwebtoken'
+import config from "../config/config.js";
 
 const router = Router(); //inicializamos el route
 const object = objectProduct;
 
 router.get('/home', (req, res)=>{
-    res.render('home');
+    const token = req.cookies['userConnect']; //obtenemos el token del usuario
+    if(token !== undefined){
+        const user = jwt.verify(token, config.JWT.secret);
+        console.log(user)
+        if(user.role === 'admin'){
+            res.render('home');
+        }
+    }
+    res.render('pages/problems', {problem: 'Esta pagina no es disponible :(', error: '404'});
 })
+
 router.get('/chat', async(req, res)=>{
     let obj = new objectChat();
     let result = await obj.getAllNormalize();
@@ -43,10 +54,16 @@ router.post("/", uploader.single('image'), async(req, res)=>{
     let result = await object.save(product); 
     res.send(result);
 })
-router.put("/modifyProduct/:idProduct", async (req, res)=>{
+router.put("/modifyProduct/:idProduct",uploader.single('image'), async (req, res)=>{
     let newData = req.body;
+    let data ={};
+
+    if(req.file !== undefined){
+        data = {...newData, image : req.protocol+"://"+req.hostname+":8080/imagen/"+req.file.filename}
+    }
+    else data = {...newData};
     let id = req.params.idProduct;
-    let result = await object.updateProduct(newData, id)
+    let result = await object.updateProduct(data, id)
     res.send({status: "success", payload: result})
 })
 router.put("/:id",uploader.single('images') , async (req, res)=>{})

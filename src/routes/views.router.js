@@ -17,13 +17,14 @@ router.get('/user', async(req, res)=>{
     res.render('pages/user',{user: user});
 })
 router.get('/error/:error', async(req, res)=>{
-    if(req.params.error==='400') res.render('pages/problems',{problem: 'Tiene que loguearte para realizar esta acción'});
+    if(req.params.error==='400') res.render('pages/problems',{problem: 'Tiene que loguearte para realizar esta acción', error: '400'});
+    
 })
 
 router.get('/tienda/product/:id', async(req, res)=>{
     let id = req.params.id;
     let result = await object.getProduct(id);
-    res.render('pages/product',{product:result.proload});
+    res.render('pages/product',{product: result.proload});
 })
 
 router.get('/user/register', (req, res)=>{
