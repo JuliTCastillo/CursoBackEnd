@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import productModel from "../models/modelProduct.js";
+import { addLogger } from "../../utils.js";
 
 class ProductDAOMongo{
     constructor(){
@@ -26,16 +27,24 @@ class ProductDAOMongo{
     }
     getProduct = async(code) =>{
         let select = await productModel.find({code: code});
-        console.log('select',JSON.stringify(select), ' tipo ', typeof select, ' tamanio ', select.length)
         return {status: "Success", proload: select};
     }
     deleteProduct = async(code) =>{
         let result = await productModel.deleteOne({code: code});
         return {status: 'success', proload: result};
     }
-    updateStock = async(idProduct, stock) =>{
-        let result = await cartModel.updateOne({_id:idProduct},{$set:{stock: stock}})
-        return {status: 'success', proload: result};
+    updateStock = async(data) =>{
+        data.forEach(async (element) => {
+            let result = await productModel.updateOne({_id: element.id}, {$set: {stock: (element.stock - element.count)}});
+        });
+        return {status: 'success', proload: 'ok'};
+    }
+    updateProduct = async(data) =>{
+        console.log(data.image);
+        if(Object.keys(data.image).length === 0){
+            let result = await productModel.updateOne({_id: element.id}, {$set: {stock: (element.stock - element.count)}});
+        }
+        return {status: 'success', proload: 'ok'};
     }
 }
 

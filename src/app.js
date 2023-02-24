@@ -1,14 +1,13 @@
 import express from "express";
-// import session from "express-session";
-import productRouter from './routes/product.router.js'
+import productRouter from './routes/product.router.js';
 import carritoRouter from './routes/carrito.route.js';
-import userRouter from './routes/user.router.js'
-import viewsRouter from './routes/views.router.js'
+import userRouter from './routes/user.router.js';
+import viewsRouter from './routes/views.router.js';
 import __dirname from "./utils.js";
 import {Server} from 'socket.io'; //?importamos el modulo de socket
-import {objectChat} from './dao/index.js'
+import {objectChat} from './dao/index.js';
 import cookieParser from "cookie-parser";
-
+import { addLogger } from "./utils.js";
 const app = express();
 
 const object = objectChat;
@@ -21,11 +20,11 @@ app.use(express.json()); //le indicamos que procese json
 app.use(express.urlencoded({ extended : true }));
 app.use(express.static(__dirname + "/public"));//Le indicamos que vamos a trabajar con un sistema estatico
 app.use(cookieParser());
+app.use(addLogger);
 //Conectamos nuestro programa principal con el router
-//app.use("/api/products", productoRouter);
 app.use("/api/products", productRouter);
 app.use('/api/carrito', carritoRouter);
-app.use('/api/user', userRouter)
+app.use('/api/user', userRouter);
 app.use('/', viewsRouter);
 
 //El USE es un MIDDLEWARE: Es decir que para en todos sus use para realizar el pedido que se esta pidiendo. Podemos crear nuestros MIDDLEWARE | un parametro importante es el next: Su funcionamiento es pasar al siguiente MIDDLEWARE.
@@ -38,7 +37,6 @@ const io = new Server(server);
 
 //?el metodo .on se queda escuchando los evento del servidor 
 io.on('connection', async socket =>{
-    console.log('connect socket');
     /*************
      * los emit y on, es la comunicacion que hay entre el usuario y el servidor
      * ? Van acompañado de el nombre de la accion y una variable que guarda el dato de la accion
@@ -55,7 +53,6 @@ io.on('connection', async socket =>{
         socket.broadcast.emit('newUserConnected', data);
     })
     socket.on('product', data=>{
-        console.log('Recibiendo evento')
     })
     socket.on('newProduct', data => io.emit('addProduct'))
 })

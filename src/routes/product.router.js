@@ -1,7 +1,7 @@
 //importamos todo el modulo | utilizando la llaves
 import { Router } from "express";
-import { uploader } from "../utils.js"
-import {objectProduct, objectChat} from '../dao/index.js';
+import { addLogger, uploader } from "../utils.js"
+import {objectProduct, objectChat, objectCart} from '../dao/index.js';
 import { generateProduct } from "../utils/mocks.js";
 
 const router = Router(); //inicializamos el route
@@ -20,13 +20,9 @@ router.get('/product', async(req, res)=>{
     res.send(result.proload);
 })
 router.get('/test', (req, res)=>{
-    console.log('hola');
-
     let product = [];
     for(let i=0; i < 5; i++){
-        console.log(i)
         let aux = generateProduct();
-        console.log(aux)
         product.push(aux)
     }
     res.send({status: 'success', payload: product})
@@ -36,7 +32,6 @@ router.get('/allProduct', async(req, res)=>{
     res.render('pages/producto',{product:result.proload});
 })
 router.get("/:id", async(req, res)=>{
-    console.log('router get '+req.params.id);
     let result = await object.getProduct(req.params.id);
     res.send(result)
 })
@@ -46,20 +41,17 @@ router.post("/", uploader.single('image'), async(req, res)=>{
     const product = req.body;
     product.image = image;
     let result = await object.save(product); 
-    console.log(result)
     res.send(result);
 })
-router.put("/:idProduct/:stock", async (req, res)=>{
-    let idProduct = req.params.idProduct;
-    let stock = req.params.stock;
-
-    res.send({status: "success", payload: idProduct})
+router.put("/modifyProduct/:idProduct", async (req, res)=>{
+    let newData = req.body;
+    let id = req.params.idProduct;
+    let result = await object.updateProduct(newData, id)
+    res.send({status: "success", payload: result})
 })
 router.put("/:id",uploader.single('images') , async (req, res)=>{})
 router.delete("/:id",async(req, res)=>{
-    console.log(req.params.id);
     let result = await object.deleteProduct(req.params.id);
-    console.log(result);
     res.send({status: "success", payload: result})
 })
 

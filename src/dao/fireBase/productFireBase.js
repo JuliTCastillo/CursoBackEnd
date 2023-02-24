@@ -13,7 +13,6 @@ class ProductDAOFirebase {
         try{
             let result = await this.getProduct(object.code);
             if(result.length === 0){
-                console.log('la clase no existe')
                 let doc = this.product.doc();
                 let result = await doc.create(object);
                 return {status: 'success', proload: result};
@@ -23,12 +22,10 @@ class ProductDAOFirebase {
             }
         }
         catch(error){
-            console.log('hubo un error: '+error);
         }
     }
     getProduct = async(code) => {
         try{
-            console.log(code)
             const snapshot = await this.product.get();
             const docs = snapshot.docs;
             let result = [];
@@ -44,7 +41,6 @@ class ProductDAOFirebase {
             return result;
         }
         catch(error){
-            console.log('hubo un error: '+error);
         }
     }
     getAll = async() =>{
@@ -56,10 +52,8 @@ class ProductDAOFirebase {
                 name: doc.data().name,
                 code: doc.data().code
             }))
-            console.log(result)
         }
         catch(error){
-            console.log('hubo un error: '+error);
         }
     }
     deleteProduct = async(code) =>{

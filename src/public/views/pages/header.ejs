@@ -26,4 +26,30 @@
     </nav>
 </header>
 
+<div class="collapse designCollapseLogin" id="collapseUser">
+    <div class="card posicionLogin" >
+        <a class="btn btn-outline-secondary" href="/user">Ver Perfil</a>
+        <button class="btn btn-outline-secondary" id="btnLogout">Cerrar session</button>
+    </div>
+</div>
+<div class="collapse designCollapse" id="collapseExample">
+    <div class="card card-body textProduct" id="listProduct">
+        <p>No hay productos</p>
+    </div>
+</div>
+<div class="collapse designCollapseLogin" id="collapseLogin">
+    <div class="card posicionLogin">
+        <h2 class="text-center">Login</h2>
+        <form id="formLogin">
+            <input class="form-control" placeholder="Ingrese su nombre" type="text" name="email" id="email">
+            <br>
+            <input class="form-control" placeholder="Ingrese su contraseña" type="password" name="passwordUser" id="passwordUser">
+            <br>
+            <div id="divAlert"></div>
+            <input type="submit" class="btn btn-primary w-100" value="Iniciar">
+        </form>
+    </div>
+</div>
+
 <script src="../../script/header.js"></script>
+<!-- <script src="../../script/carrito.js"></script> -->

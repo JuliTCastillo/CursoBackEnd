@@ -10,7 +10,6 @@ const router = Router(); //inicializamos el route
 const obj = objectUSer;
 
 router.post('/', async(req, res)=>{
-    console.log(req.body)
     const {email, passwordUser} = req.body;
     //Consultamos los datos del usuario
     let result = await obj.getUser(email);
@@ -33,6 +32,7 @@ router.post('/login', async(req,res)=>{
         id: result._id,
         role: result.role,
         name: `${result.firstName} ${result.lastName}`,
+        email: result.email,
         avatar: result.avatar,
         idCart : ''
     };
@@ -51,17 +51,13 @@ router.get('/updateData/:data', (req, res)=>{
 router.get('/data', (req, res)=>{
     const token = req.cookies['userConnect']; //obtenemos el token del usuario
     const user = jwt.verify(token, config.JWT.secret); //decodificamos el token del usuario
-    console.log('data router ', user)
     res.send({status: 'success', payload: user})
 })
 
 router.get('/verifyUser', verifyUser);
 
-// router.get('/:id', async(req, res)=>{
-//     let idUser = req.params.id;
-//     console.log(idUser);
-//     let result = await obj.getById(idUser);
-//     res.send({status: 'success', payload: result})
-// })
+router.get('/logout', (req, res) =>{
+    res.clearCookie('userConnect').send({status:'success', message: 'Usuario desloguado'}); //! BORRAMOS LA COOKIE
+})
 
 export default router;

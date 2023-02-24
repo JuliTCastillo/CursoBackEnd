@@ -12,18 +12,15 @@ class CartDAOFirebase {
     save = async(object) =>{
         let doc = this.cart.doc();
         let result = await doc.create({products : object});
-        console.log(result)
     }
     addProduct = async(id, product) => {
         let arrayProduct = await this.getProduct(id);
         arrayProduct.push(product)
         const doc = this.cart.doc(id);
         let result = await doc.update({products: arrayProduct});
-        console.log(result)
     }
     //TODO: obtiene el array de producto del carrito de la id
     getProduct = async(id)=>{
-        console.log(id);
         const snapshot = await this.cart.get();
         const docs = snapshot.docs;
         let result;
@@ -41,7 +38,6 @@ class CartDAOFirebase {
             id: doc.id,
             products: JSON.stringify(doc.data().products)
         }))
-        console.log(result)
     }
     deleteProduct = async(id, code) => {
         let arrayProduct = await this.getProduct(id);
@@ -51,7 +47,6 @@ class CartDAOFirebase {
         })
         const doc = this.cart.doc(id);
         let newProduct = await doc.update({products: arrayProduct});
-        console.log(newProduct)
     }
     deleteCart = async(id) => {
         const snapshot = await this.cart.get();

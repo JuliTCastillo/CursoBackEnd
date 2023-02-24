@@ -4,8 +4,12 @@ const socket = io({
 const send = document.getElementById('send'); //el boton de enviar
 const msg = document.getElementById('msg'); //Div que se encuentra en el modal-body
 const chatBox = document.getElementById('chatBox')
-const listProduct = document.getElementById('listProduct');
+const listProduct = document.getElementById('listProducts');
 const btnCarrito = document.getElementById('btnCarrito');
+const inputForm= document.getElementById('inputForm');
+const btnModify = document.getElementById('btnModify')
+const formModify = document.getElementById('formModify')
+
 let estado = true;
 let user = [];
 
@@ -58,18 +62,16 @@ socket.emit('authenticated', user);
 mostrarProducto();
 
 const deleteProduct = async (event) => {
-    console.log('dentro de deleteProduct')
-    console.log('id que obtenemos', event.target.code);
     await fetch(`/api/products/${event.target.id}`, {
         method: 'DELETE'
     })
-        .then(result => result.json()).then(json => console.log(json));
     await socket.emit('newProduct');
 }
 async function mostrarProducto() {
     await fetch("/api/products/product")
         .then(result => result.json())
         .then(json => {
+            console.log(json)
             listProduct.innerHTML = ''
             json.forEach(element => {
                 listProduct.innerHTML +=
@@ -92,12 +94,16 @@ async function mostrarProducto() {
                         <button class='btn btn-danger listBtnEliminar' id='${element.code}'>Eliminar</button>
                     </div>
                     <div class="col d-flex justify-content-center align-items-center">
-                        <button class='btn btn-warning listBtnModificar' id='${element.code}'>Modificar</button>
+                        <button type="button" id='${element.code}' class='btn btn-warning listBtnModificar' data-bs-toggle="modal" data-bs-target="#dataModification">Modificar</button>
                     </div>
                 </div>
             </div>
             `
             });
+            const listBtnModificar = document.getElementsByClassName('listBtnModificar'); 
+            for(let btn of listBtnModificar) {
+                btn.addEventListener("click", modificar)
+            }
             const listBtnEliminar = document.getElementsByClassName('listBtnEliminar');
             for (let btn of listBtnEliminar) {
                 btn.addEventListener("click", deleteProduct)
@@ -139,7 +145,66 @@ const message = (icon, text) => {
         icon: icon
     })
 }
+// -----------------------------------------------------
+//TODO: MODIFICACION DE DATOS
+const modificar = async(event) =>{
+    let dataProduct;
+    await fetch(`${event.target.id}`).then(result => result.json()).then(json => {dataProduct = json.proload[0]})
+    console.log(dataProduct)
+    inputForm.innerHTML = 
+        `
+        <div class="col m-3">
+            <div class='d-flex justify-content-between align-items-center'>
+                <label class='form-label' for="name">Nombre del Producto</label>
+                <p id='idCode' data-bs-target='${dataProduct.code}'>Codigo: ${dataProduct.code}</p>
+            </div>
+            
+            <input class='form-control' type="text" name="name" id="name" value='${dataProduct.name}'>
+        </div>
+        <div class="col m-3">
+                <label for="description" class="form-label">Descripcion</label>
+                <textarea class="form-control" id="description" name="description" rows="3">${dataProduct.description}</textarea>
+        </div>
+        <div class="col m-3">
+            <label class='form-label' for="image">Cambiar imagen</label>
+            <div class='row'>
+                <div class="col ">
+                    <img src= ${dataProduct.image} alt="${dataProduct.name}" width="80" height='80'>
+                </div>
+                <div class="col ">
+                    
+                </div>
+                
+                <input class='form-control' type="file" name="image" id="image">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col ">
+                <label class='form-label' for="price">Precio</label>
+                <input class='form-control' type="number" name="price" id="price" value='${dataProduct.price}'> 
+            </div>
+            <div class="col ">
+               <label class='form-label' for="stock">Stock</label>
+               <input class='form-control' type="number" name="stock" id="stock" value='${dataProduct.stock}'>
+            </div>
+        </div>
+        `
+}
 
+btnModify.addEventListener('click', async(e)=>{
+    let data = new FormData(formModify); //Obtenemos los datos que ingresaron en el formulario | estrucuta de datos diferente
+    let obj = {}; //creamos un objeto
+    data.forEach((value, key) => obj[key] = value);
+    const idCode = document.getElementById('idCode');
+
+
+    await fetch(`modifyProduct/${idCode.dataset.bsTarget}`, {
+        method:'PUT',
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(obj)   
+    }).then(result => result.json()).then(json => console.log(json));
+
+})
 //------------------------------------------------------
 
 //TODO: ENVIO DE MENSAJE CON EL ENTER
@@ -155,7 +220,6 @@ chatBox.addEventListener(('keyup' || 'submit'), evt => {
 const designMessage = (data) => {
     let html = '';
     data.forEach(msgs => {
-        console.log('a', msgs)
         if (msgs.autor.name !== user[0]) {
             html = `
             <div class='userMessage d-flex'>
@@ -191,7 +255,6 @@ const designMessage = (data) => {
 //Todo: SOCKET ESCUCHANDO EVENTOS
 //Creamos este socket.on para que escuche el emit del servidor
 socket.on('logs', data => {
-    console.log('estamos en logs')
     let message = designMessage(data);
     //realizamos un for parra que se muestre los mensajes de los usuarios | agregamos diseño
     msg.innerHTML += message;
@@ -201,6 +264,5 @@ socket.on('addProduct', async data => {
 })
 socket.on('newUserConnected', data => {
     if (!user) return;
-    console.log('newUser', data)
     msg.innerHTML += `<p class='logIn'>${data[0]} se ha unido al chat</p>`
 })

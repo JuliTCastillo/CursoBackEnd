@@ -10,7 +10,6 @@ const objeto = objectCart;
 //* Crea un carrito y devuelve su id
 router.post('/', async(req, res)=>{
     let id = await objeto.save(); //creamso el carrito
-    console.log('soy el resultado de la bdd de cart ',id)
     const token = req.cookies['userConnect']; //obtenemos el token del usuario
     const user = jwt.verify(token, config.JWT.secret); //decodificamos el token del usuario
     const tokenizedUser = {

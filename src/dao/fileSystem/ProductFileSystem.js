@@ -19,18 +19,15 @@ class ProductFileSystem {
         let contenido = JSON.parse(data); //convertimos a array 
         if(contenido.length == 0){ //si es 0, el archivo se acaba de crear
             objeto.id  = 1; //colocamos la id
-            //console.log(objeto);
             contenido.push(JSON.parse(JSON.stringify(objeto))); //agregamos el objeto a la lista\
             await fs.promises.writeFile(this.ruta, JSON.stringify(contenido, null, "\t"));
         }
         else{
             let result = await this.getProduct(objeto.code);
-            console.log(result)
             if(result.proload.length === 0){
                 contenido.forEach(element => {this.id = element.id});
                 objeto.id  = this.id+=1;
                 contenido.push(objeto); //agregamos el objeto a la lista
-                //console.log(contenido);
                 fs.promises.writeFile(this.ruta, JSON.stringify(contenido, null, "\t"));
                 return {status: 'success', proload: contenido};
             }
@@ -98,7 +95,6 @@ class ProductFileSystem {
         //elimina todos los objetos presente en el archivo
         let data = await fs.promises.readFile(this.ruta, 'utf-8'); //devuelve un string
         let contenido = JSON.parse(data); //convertimos a array 
-        console.log(contenido)
         contenido.map((element, index)=>{
   
         });

@@ -23,8 +23,7 @@ class CartDAOMongo{
         find.forEach(element => {
             list.push(element.product);
         });
-        find = await cartModel.find({_id:idCart});
-        return find[0].product;
+        return list[0];
     }
     addProduct = async(id, info) =>{
         let result = await cartModel.updateOne({_id:id},{$set:{product:info.product, count:info.count}});
@@ -33,17 +32,13 @@ class CartDAOMongo{
     deleteProduct = async(id, code) =>{
         let arrayProduct = await this.getProduct(id);
         let result = []
-        console.log(arrayProduct)
         arrayProduct.map(item =>{
-            console.log(item.code + ' ' + code)
             if(item.code !== code){ result.push(item)};
         })
-        console.log(result)
         await cartModel.updateOne({_id:id},{$set:{product:result, count: result.length}})
     }
     deleteCart = async(id) =>{
         let result = await cartModel.deleteOne({_id: id});
-        console.log(result)
     }
 }
 

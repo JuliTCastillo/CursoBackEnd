@@ -11,7 +11,6 @@ class ChatDAOMongo{
     }
     save = async(object) =>{
         let result = await cartModel.create(object);
-        console.log(result)
     }
     getAll = async() =>{
         let find = await cartModel.find({},{_id:0, __v:0})

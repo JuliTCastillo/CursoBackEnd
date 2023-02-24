@@ -28,7 +28,6 @@ class Contenedor {
             return {status: 'success', proload: result};
         }
         catch(erro){
-            console.log('error en el select')
         }
     }
     getProduct = async(code) =>{
@@ -37,7 +36,6 @@ class Contenedor {
             return {status: 'success', proload: result};
         }
         catch(erro){
-            console.log('error en el select id')
         }
     }
     deleteProduct = async(code) =>{
@@ -46,7 +44,6 @@ class Contenedor {
             return {status: 'success', proload: result};
         }
         catch(erro){
-            console.log('error en el delete')
         }
     }
 

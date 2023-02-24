@@ -24,7 +24,6 @@ Swal.fire({
     user = result.value; //guardamos el dato en una variable
     socket.connect(); //nos conectamos al socket
     socket.emit('authenticated', user);
-    console.log(user);
     fetch("/api/products/allProduct")
     .then(result => result.json())
     .then(json =>{

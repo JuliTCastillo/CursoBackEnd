@@ -18,7 +18,6 @@ const userConfig = (user)=>{
     collapseExample.removeAttribute('class')
     collapseExample.classList.add('designCollapse')
     collapseExample.classList.add('collapse')
-    console.log(user)
     iconLogin.classList.add('d-none'); 
     iconUser.innerHTML = 
     `
@@ -49,6 +48,5 @@ formLogin.addEventListener('submit', async(event) =>{
             divAlert.innerHTML = ``;
             userConfig(json.payload);
         }
-        console.log(json)
     })
 })

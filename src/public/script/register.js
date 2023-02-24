@@ -18,7 +18,6 @@ formRegister.addEventListener('submit' , async e =>{
 
     data.forEach((value, key) => obj[key] = value);
     obj.avatar = (`https://api.dicebear.com/5.x/micah/svg?seed=${obj.firstName}`)
-    console.log(obj);
      //Modificamos el fetch ya que no podemos subir imagenes como json
      await fetch("/api/user/", {
         method: "POST",
