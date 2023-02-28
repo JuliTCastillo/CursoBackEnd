@@ -7,6 +7,7 @@ const contador = document.getElementById('contador');
 const listProduct = document.getElementById('listProduct');
 const btnCart = document.getElementById('btnCart');
 const btnLogout = document.getElementById('btnLogout');
+const itemAdmin = document.getElementById('itemAdmin');
 
 btnLogout.addEventListener('click', async(e) =>{
     await fetch(`/api/user/logout`).then(result => result.json()).then(json=> console.log(json));
@@ -26,6 +27,10 @@ const verifyUser = async () => {
             `
         await verifyCart(data)
         if(data.idCart !== '') await infoCart(data.idCart);
+
+        if(data.role === 'admin'){
+            itemAdmin.innerHTML = `<a class="nav-link" href="/api/products/home">Administrar</a>`
+        }
     }
     else {
         iconLogin.innerHTML =

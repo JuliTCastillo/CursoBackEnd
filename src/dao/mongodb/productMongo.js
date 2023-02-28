@@ -1,13 +1,13 @@
 import mongoose from "mongoose";
 import productModel from "../models/modelProduct.js";
-import { addLogger } from "../../utils.js";
+import config from "../../config/config.js"
 
 class ProductDAOMongo{
     constructor(){
         this.connect();
     }
     connect = () =>{
-        const connection = mongoose.connect('mongodb+srv://ecommerceLibrery:123Library@ecommercelibrary.aqiseu9.mongodb.net/product?retryWrites=true&w=majority')
+        const connection = mongoose.connect(config.mongo.connect)
     }
     save = async(object)=>{
         object.code = (object.code).toUpperCase()

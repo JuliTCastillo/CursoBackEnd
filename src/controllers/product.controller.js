@@ -1,6 +1,9 @@
-import {objectProduct, objectChat} from '../dao/index.js';
 import jwt from 'jsonwebtoken'
 import config from "../config/config.js";
+import PersistenceFactory from '../dao/factory.js';
+
+const factory = await PersistenceFactory.getPersistence();
+const productService = factory.product;
 
 const home =  (req, res)=>{
     const token = req.cookies[config.COOKIE.user]; //obtenemos el token del usuario
@@ -14,22 +17,22 @@ const home =  (req, res)=>{
     res.render('pages/problems', {problem: 'Esta pagina no esta disponible :(', error: '404'});
 }
 
-const chat = async(req, res)=>{
-    let result = await objectChat.getAllNormalize();
-    res.send(result)
-}
+// const chat = async(req, res)=>{
+//     let result = await objectChat.getAllNormalize();
+//     res.send(result)
+// }
 const product = async(req, res)=>{
-    let result = await objectProduct.getAll();
+    let result = await productService.getAll();
     res.send(result.proload);
 }
 
 const allProduct = async(req, res)=>{
-    let result = await objectProduct.getAll();
+    let result = await productService.getAll();
     res.render('pages/producto',{product:result.proload});
 }
 
 const getProduct = async(req, res)=>{
-    let result = await objectProduct.getProduct(req.params.id);
+    let result = await productService.getProduct(req.params.id);
     res.send(result)
 }
 const save = async(req, res)=>{
@@ -37,7 +40,7 @@ const save = async(req, res)=>{
     let image = req.protocol+"://"+req.hostname+":8080/imagen/"+req.file.filename ;
     const product = req.body;
     product.image = image;
-    let result = await objectProduct.save(product); 
+    let result = await productService.save(product); 
     res.send(result);
 }
 const modifyProduct = async (req, res)=>{
@@ -49,13 +52,13 @@ const modifyProduct = async (req, res)=>{
     }
     else data = {...newData};
     let id = req.params.idProduct;
-    let result = await objectProduct.updateProduct(data, id)
+    let result = await productService.updateProduct(data, id)
     res.send({status: "success", payload: result})
 }
 
 const deleteProduct = async(req, res)=>{
-    let result = await objectProduct.deleteProduct(req.params.id);
+    let result = await productService.deleteProduct(req.params.id);
     res.send({status: "success", payload: result})
 }
 
-export default {home, chat, product, allProduct, getProduct, save, modifyProduct, deleteProduct}
+export default {home, product, allProduct, getProduct, save, modifyProduct, deleteProduct}

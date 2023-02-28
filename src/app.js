@@ -5,12 +5,12 @@ import userRouter from './routes/user.router.js';
 import viewsRouter from './routes/views.router.js';
 import __dirname from "./utils.js";
 import {Server} from 'socket.io'; //?importamos el modulo de socket
-import {objectChat} from './dao/index.js';
+// import {objectChat} from './dao/index.js';
 import cookieParser from "cookie-parser";
 import { addLogger } from "./utils.js";
 const app = express();
 
-const object = objectChat;
+// const object = objectChat;
 
 //Le indicamos donde van estar guardadas nuestras vistas
 app.set('views', `${__dirname}/public/views`); //templay string
@@ -47,12 +47,12 @@ io.on('connection', async socket =>{
      * los emit y on, es la comunicacion que hay entre el usuario y el servidor
      * ? Van acompañado de el nombre de la accion y una variable que guarda el dato de la accion
      *************/
-    socket.on('message', async(data) =>{
-        // message.push(data);
-        await object.save(data);
-        let messages = await object.getAll();
-        io.emit('logs', messages);
-    })
+    // socket.on('message', async(data) =>{
+    //     // message.push(data);
+    //     await object.save(data);
+    //     let messages = await object.getAll();
+    //     io.emit('logs', messages);
+    // })
     socket.on('authenticated', data =>{
         //socket :  hablamos de una accion realizado por el usuario que tenemos
         //.broadcast : realiza una accion para los otros usaurio menos al usuario que desencadeno el evento

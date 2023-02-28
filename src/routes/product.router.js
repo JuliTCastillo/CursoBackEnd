@@ -7,7 +7,7 @@ const router = Router(); //inicializamos el route
 
 router.get('/home', productController.home);
 
-router.get('/chat', productController.chat);
+// router.get('/chat', productController.chat);
 
 router.get('/product', productController.product);
 

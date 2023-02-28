@@ -203,6 +203,8 @@ btnModify.addEventListener('click', async(e)=>{
         body: data
     }).then(result => result.json()).then(json => console.log(json));
 
+    
+
     await mostrarProducto();
 })
 //------------------------------------------------------

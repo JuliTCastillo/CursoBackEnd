@@ -7,6 +7,9 @@ export default {
     mongo : {
         connect : process.env.MONGO_CONNECT
     },
+    APP : {
+        persistence : process.env.PERSISTENCE
+    },
     JWT :{
         secret : process.env.JWT_SECRET
     },

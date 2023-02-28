@@ -1,5 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 import cartModel from "../models/modelChat.js";
+import config from "../../config/config.js"
+
 import {normalize, schema } from "normalizr";
 
 class ChatDAOMongo{
@@ -7,7 +9,7 @@ class ChatDAOMongo{
         this.connect();
     }
     connect = () =>{
-        const connection = mongoose.connect('mongodb+srv://ecommerceLibrery:123Library@ecommercelibrary.aqiseu9.mongodb.net/product?retryWrites=true&w=majority')
+        const connection = mongoose.connect(config.mongo.connect)
     }
     save = async(object) =>{
         let result = await cartModel.create(object);

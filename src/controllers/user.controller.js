@@ -1,35 +1,32 @@
-import {objectUSer} from '../dao/index.js';
 import { createHash, validatePassword} from "../utils.js";
+import PersistenceFactory from '../dao/factory.js';
 import jwt from 'jsonwebtoken';
 import config from "../config/config.js";
+import UserDTO from "../dao/dto/user.dto.js";
+
+const factory = await PersistenceFactory.getPersistence();
+const userService = factory.user;
 
 const registerUser = async(req, res)=>{
     const {email, passwordUser} = req.body;
     //Consultamos los datos del usuario
-    let result = await objectUSer.getUser(email);
+    let result = await userService.getUser(email);
     //Nos fijamos si existe un usuario con ese correo
     if(result) return res.status(400).send({status:'error', error:'El correo ya existe'})
     let newPassword = await createHash(passwordUser);
     req.body.passwordUser = newPassword;
-    let consult = await objectUSer.save(req.body); 
+    let consult = await userService.save(req.body); 
     res.send({status:'success', proload: 'El usuario se registro'})
 }
 
 const login = async(req,res)=>{
     const {email, passwordUser} = req.body;
-    let result = await objectUSer.getUser(email);
+    let result = await userService.getUser(email);
     if(!result) return res.status(400).send({status:'error', error:'El usuario no existe'})
     const validate = await validatePassword(result, passwordUser)
     if(!validate) return res.status(400).send({status:'error', error:'La contraseña no es correcta'})
 
-    const tokenizedUser = {
-        id: result._id,
-        role: result.role,
-        name: `${result.firstName} ${result.lastName}`,
-        email: result.email,
-        avatar: result.avatar,
-        idCart : ''
-    };
+    const tokenizedUser = UserDTO.getDbDTO(result);
 
     const token = jwt.sign(tokenizedUser, config.JWT.secret, {expiresIn: "1d" });
     res.cookie(config.COOKIE.user, token);
