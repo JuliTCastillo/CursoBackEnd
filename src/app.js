@@ -21,11 +21,12 @@ app.use(express.urlencoded({ extended : true }));
 app.use(express.static(__dirname + "/public"));//Le indicamos que vamos a trabajar con un sistema estatico
 app.use(cookieParser());
 app.use(addLogger);
+
 //Conectamos nuestro programa principal con el router
+app.use('/', viewsRouter);
 app.use("/api/products", productRouter);
 app.use('/api/carrito', carritoRouter);
 app.use('/api/user', userRouter);
-app.use('/', viewsRouter);
 
 app.get('*', (req, res)=>{
     req.logger.warn(`Se inteto ingresar a ${req.url} que no existe`);

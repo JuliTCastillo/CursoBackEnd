@@ -1,10 +1,10 @@
 import jwt from 'jsonwebtoken';
-import {objectUSer, objectProduct} from '../src/dao/index.js';
-import config from '../src/config/config.js';
+import {objectUSer} from '../dao/index.js';
+import config from '../config/config.js';
 
 
 export const verifyUser = async(req, res, next) =>{
-    const token = req.cookies['userConnect'];
+    const token = req.cookies[config.COOKIE.user];
     if(token !== undefined){
         const user = jwt.verify(token, config.JWT.secret);
         let result = await objectUSer.getById(user.id);

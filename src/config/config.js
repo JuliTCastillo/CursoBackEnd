@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import { Cookie } from 'express-session';
 
 dotenv.config();
 
@@ -8,5 +9,8 @@ export default {
     },
     JWT :{
         secret : process.env.JWT_SECRET
+    },
+    COOKIE:{
+        user: process.env.COOKIE_USER
     }
 }
