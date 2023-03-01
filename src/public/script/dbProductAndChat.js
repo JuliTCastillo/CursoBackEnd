@@ -9,6 +9,7 @@ const btnCarrito = document.getElementById('btnCarrito');
 const inputForm= document.getElementById('inputForm');
 const btnModify = document.getElementById('btnModify')
 const formModify = document.getElementById('formModify')
+const dataModification = document.getElementById('dataModification');
 
 let estado = true;
 let user = [];
@@ -202,8 +203,6 @@ btnModify.addEventListener('click', async(e)=>{
         method:'PUT',
         body: data
     }).then(result => result.json()).then(json => console.log(json));
-
-    
 
     await mostrarProducto();
 })

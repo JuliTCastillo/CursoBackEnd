@@ -19,6 +19,8 @@ router.post("/",uploader.single('image'),  productController.save);
 
 router.put("/modifyProduct/:idProduct",uploader.single('image'), productController.modifyProduct);
 
+router.put('/updateStock', productController.buyProduct)
+
 router.delete("/:id", productController.deleteProduct);
 
 router.get('*', (req, res)=>{

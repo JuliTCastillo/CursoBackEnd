@@ -49,6 +49,15 @@ btnBuy.addEventListener('click', async event => {
         .then(json => {data = json.proload})
 
         contador.innerText = data.count;
+
+        Swal.fire({
+            toast: true,
+            position: "bottom-end",
+            showConfirmButton: false,
+            timer: 4000,
+            title: 'Se añadio un producto',
+            icon: 'success'
+        })
     }
     else{
         divError.innerHTML = 

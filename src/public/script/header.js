@@ -8,6 +8,7 @@ const listProduct = document.getElementById('listProduct');
 const btnCart = document.getElementById('btnCart');
 const btnLogout = document.getElementById('btnLogout');
 const itemAdmin = document.getElementById('itemAdmin');
+const collapseExample = document.getElementById('collapseExample')
 
 btnLogout.addEventListener('click', async(e) =>{
     await fetch(`/api/user/logout`).then(result => result.json()).then(json=> console.log(json));
@@ -17,6 +18,7 @@ btnLogout.addEventListener('click', async(e) =>{
 const verifyUser = async () => {
     let answer;
     await fetch(`/api/user/verifyUser`).then(result => result.json()).then(json => { answer = json });
+    console.log('answer es igual', answer)
     if (answer.status === 'success') {
         let data = answer.payload;
         iconLogin.classList.add('d-none');
@@ -74,6 +76,19 @@ const finalizarComprar = async(event) =>{
         headers:{'Content-Type':'application/json'}, 
         body:JSON.stringify(infoUser)
     }).then(result => result.json()).then(json=> console.log(json));
+
+    await Swal.fire({
+        toast: true,
+        position: "bottom-end",
+        showConfirmButton: false,
+        timer: 2000,
+        title: 'Su compra hacido procesada correctamente',
+        icon: 'success'
+    })
+
+    collapseExample.classList.remove('show');
+
+    location.href = '/tienda'
 }
 
 const eliminarProduct =async(event) =>{

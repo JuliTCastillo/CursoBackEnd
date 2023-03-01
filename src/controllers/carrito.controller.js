@@ -1,6 +1,7 @@
 import PersistenceFactory from '../dao/factory.js';
 import jwt from 'jsonwebtoken';
 import config from "../config/config.js";
+import UserDTO from '../dao/dto/User.dto.js'
 
 const factory = await PersistenceFactory.getPersistence();
 const cartService = factory.cart;
@@ -11,13 +12,9 @@ const save = async(req, res)=>{
     let id = await cartService.save(); //creamso el carrito
     const token = req.cookies[config.COOKIE.user]; //obtenemos el token del usuario
     const user = jwt.verify(token, config.JWT.secret); //decodificamos el token del usuario
-    const tokenizedUser = {
-        id: user.id,
-        role: user.role,
-        name: user.name,
-        avatar: user.avatar,
-        idCart : id.proload
-    };
+
+    const tokenizedUser = UserDTO.putDbDTO(user, id.proload) //modificamos el token del user
+    console.log('tokenizedUser ', tokenizedUser)
     res.clearCookie(config.COOKIE.user); //! BORRAMOS LA COOKIE
     // //* CREAMOS UN NUEVO TOKEN CON LOS DATOS COA
     const newToken = jwt.sign(tokenizedUser, config.JWT.secret, {expiresIn: "1d" });
@@ -31,13 +28,8 @@ const deleteCart = async(req, res)=>{
     await cartService.deleteCart(id);
     const token = req.cookies[config.COOKIE.user]; //obtenemos el token del usuario
     const user = jwt.verify(token, config.JWT.secret); //decodificamos el token del usuario
-    const tokenizedUser = {
-        id: user.id,
-        role: user.role,
-        name: user.name,
-        avatar: user.avatar,
-        idCart : ''
-    };
+    const tokenizedUser = UserDTO.getDbDTO(user); //Traemos al objeto desde el DTO
+
     res.clearCookie(config.COOKIE.user); //! BORRAMOS LA COOKIE
     // //* CREAMOS UN NUEVO TOKEN CON LOS DATOS COA
     const newToken = jwt.sign(tokenizedUser, config.JWT.secret, {expiresIn: "1d" });

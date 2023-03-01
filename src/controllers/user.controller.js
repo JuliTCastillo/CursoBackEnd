@@ -25,9 +25,9 @@ const login = async(req,res)=>{
     if(!result) return res.status(400).send({status:'error', error:'El usuario no existe'})
     const validate = await validatePassword(result, passwordUser)
     if(!validate) return res.status(400).send({status:'error', error:'La contraseña no es correcta'})
-
+    
     const tokenizedUser = UserDTO.getDbDTO(result);
-
+    console.log('login ', tokenizedUser)
     const token = jwt.sign(tokenizedUser, config.JWT.secret, {expiresIn: "1d" });
     res.cookie(config.COOKIE.user, token);
     res.send({status:'success', proload: 'Usuario conectado', payload: tokenizedUser})

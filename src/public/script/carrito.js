@@ -5,7 +5,7 @@ const countProduct = document.getElementById('countProduct')
 const btnCart = document.getElementById('btnCart')
 const divBtnCart = document.getElementById('divBtnCart');
 const collapseExample = document.getElementById('collapseExample');
-const btnComprar = document.getElementById('btnComprar')
+
 
 let carrito = false;
 let idCarrito;
@@ -24,12 +24,16 @@ const createCart = async() =>{
 }
 const comprar = async(event) =>{
     let verifyUser;
+    console.log('era esto')
     await fetch(`/api/user/verifyUser`).then(result => result.json()).then(json=> {verifyUser = json});
+    console.log('AAAAAAAD',verifyUser);
+
     if(verifyUser.status === '400'){
         location.href = verifyUser.ruta;
     }
     else{
         let data = verifyUser.payload;
+        console.log(data);
         if(data.idCart === '') data = await createCart();
         idCarrito = data.idCart;
         const idProduct = event.target.dataset.bsTarget;

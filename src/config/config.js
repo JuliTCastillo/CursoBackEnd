@@ -15,5 +15,9 @@ export default {
     },
     COOKIE:{
         user: process.env.COOKIE_USER
+    },
+    CORREO:{
+        user: process.env.NODEMAILER_CORREO,
+        password: process.env.NODEMAILER_PASSWORD
     }
 }

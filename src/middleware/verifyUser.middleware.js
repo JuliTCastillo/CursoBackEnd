@@ -10,8 +10,9 @@ export const verifyUser = async(req, res, next) =>{
     const token = req.cookies[config.COOKIE.user];
     if(token !== undefined){
         const user = jwt.verify(token, config.JWT.secret);
-        let result = await userService.getById(user.id);
-
+        console.log(user)
+        let result = await userService.getById(user._id);
+        console.log('verifyUser ',user)
         if(result !== null) return res.send({status: 'success', payload: user})
         else return res.send({status: '401', ruta: 'No se encontro ningun usuario'});
     }
