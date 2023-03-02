@@ -1,18 +1,17 @@
-import mongoose from "mongoose";
-
-const collection = 'cart'; // nombere 
-
-const schema = new mongoose.Schema({
-    product: {
-        type: Array,
-        require: true
-    },
-    count: {
-        type: Number,
-        default: 0
+export default class Cart {
+    static get model() {
+        return 'Carts';
     }
-})
-
-const cartModel = mongoose.model(collection, schema);
-
-export default cartModel;
+    static get schema() {
+        return {
+            product: {
+                type: Array,
+                require: true
+            },
+            count: {
+                type: Number,
+                default: 0
+            }
+        }
+    }
+}
