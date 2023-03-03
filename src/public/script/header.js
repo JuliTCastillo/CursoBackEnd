@@ -21,6 +21,7 @@ const verifyUser = async () => {
     console.log('answer es igual', answer)
     if (answer.status === 'success') {
         let data = answer.payload;
+        console.log('answer. payload ', data)
         iconLogin.classList.add('d-none');
         iconUser.innerHTML =
             `
@@ -62,7 +63,7 @@ const infoCart = async(idCart) =>{
     let data;
     await fetch(`/api/carrito/${idCart}`)
     .then(result => result.json())
-    .then(json => {data = json.proload[0]})
+    .then(json => {data = json})
 
     contador.innerText = data.count;
 }
@@ -120,6 +121,7 @@ const eliminarProduct =async(event) =>{
 const eliminarCarrito = async() =>{
     let infoUser;
     await fetch(`/api/user/verifyUser`).then(result => result.json()).then(json=> {infoUser = json.payload});
+    console.log(infoUser)
     //Eliminamos el carrito
     await fetch(`/api/carrito/${infoUser.idCart}`,{
         method: 'DELETE'
@@ -158,12 +160,13 @@ btnCart.addEventListener('click', e =>{
     mostrarProductos();
 })
 const mostrarProductos = async() =>{
-    console.log('entramos a la funcion de mostrarProductos')
     let infoUser;
     await fetch(`/api/user/verifyUser`).then(result => result.json()).then(json=> {infoUser = json.payload});
+    console.log(infoUser.idCart)
     await fetch(`/api/carrito/${infoUser.idCart}/productos`).then(result => result.json())
     .then(json => {
-        let precioTotal = showProduct(json);
+        //obtenemos el objeto del carrito y especificamos que solo queremos los productos
+        let precioTotal = showProduct(json.product);
         //mostramos el precio total de los productos
         listProduct.innerHTML+= 
             `
@@ -188,7 +191,6 @@ const mostrarProductos = async() =>{
 }
 const showProduct = (object) =>{
     let precioTotal=0;
-    console.log('entramos a la funcion de showProduct')
     listProduct.innerHTML = `<h2 class='text-center'>Lista de Productos</h2><hr>`;
     object.forEach(element => {
         listProduct.innerHTML+=

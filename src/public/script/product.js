@@ -18,11 +18,13 @@ btnBig.addEventListener('click', async event => {
     await fetch(`/api/products/${id}`, {
         method: 'GET'
     }).then(result => result.json()).then(json => { product = json })
-    product = product.proload[0]; //guardamos los datos 
+    product = product; //guardamos los datos 
 
+    console.log(product)
     //validadmos el stock
     if (valor < parseInt(product.stock)){
         btnCount.value = parseInt(btnCount.value) + 1;
+        console.log(btnCount.value)
         divError.innerHTML = ''
     }
     else {

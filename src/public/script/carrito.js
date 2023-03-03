@@ -35,6 +35,7 @@ const comprar = async(event) =>{
         let data = verifyUser.payload;
         console.log(data);
         if(data.idCart === '') data = await createCart();
+        console.log('data ', data)
         idCarrito = data.idCart;
         const idProduct = event.target.dataset.bsTarget;
         location.href = `/tienda/product/${idProduct}`

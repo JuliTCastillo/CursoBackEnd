@@ -1,6 +1,6 @@
 export default class Chat{
     static get model(){
-        return 'Chats'
+        return 'chats'
     }
     static get schema(){
         return{

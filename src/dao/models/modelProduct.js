@@ -1,6 +1,6 @@
 export default class Product {
     static get model(){
-        return 'Products'
+        return 'products'
     }
     static get schema(){
         return{

@@ -1,6 +1,6 @@
 export default class Cart {
     static get model() {
-        return 'Carts';
+        return 'carts';
     }
     static get schema() {
         return {

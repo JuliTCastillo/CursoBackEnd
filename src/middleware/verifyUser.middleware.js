@@ -1,9 +1,6 @@
 import jwt from 'jsonwebtoken';
-import PersistenceFactory from '../dao/factory.js';
 import config from '../config/config.js';
-
-const factory = await PersistenceFactory.getPersistence();
-const userService = factory.user;
+import { userService } from '../services/services.js';
 
 
 export const verifyUser = async(req, res, next) =>{
@@ -11,7 +8,7 @@ export const verifyUser = async(req, res, next) =>{
     if(token !== undefined){
         const user = jwt.verify(token, config.JWT.secret);
         console.log(user)
-        let result = await userService.getById(user._id);
+        let result = await (userService.getAll({_id:user._id}))[0];
         console.log('verifyUser ',user)
         if(result !== null) return res.send({status: 'success', payload: user})
         else return res.send({status: '401', ruta: 'No se encontro ningun usuario'});

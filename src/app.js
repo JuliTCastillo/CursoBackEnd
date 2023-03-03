@@ -5,7 +5,6 @@ import userRouter from './routes/user.router.js';
 import viewsRouter from './routes/views.router.js';
 import __dirname from "./utils.js";
 import {Server} from 'socket.io'; //?importamos el modulo de socket
-// import {objectChat} from './dao/index.js';
 import cookieParser from "cookie-parser";
 import { addLogger } from "./utils.js";
 const app = express();

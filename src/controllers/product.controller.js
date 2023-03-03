@@ -1,12 +1,13 @@
 import jwt from 'jsonwebtoken'
 import config from "../config/config.js";
-import PersistenceFactory from '../dao/factory.js';
+// import PersistenceFactory from '../dao/factory.js';
 import UserDTO from '../dao/dto/User.dto.js';
-import nodemailer from 'nodemailer'
+import nodemailer from 'nodemailer';
+import { productService } from '../services/services.js';
 
-const factory = await PersistenceFactory.getPersistence();
-const productService = factory.product;
-const cartService = factory.cart;
+// const factory = await PersistenceFactory.getPersistence();
+// const productService = factory.product;
+// const cartService = factory.cart;
 
 const home =  (req, res)=>{
     const token = req.cookies[config.COOKIE.user]; //obtenemos el token del usuario
@@ -22,7 +23,7 @@ const home =  (req, res)=>{
 
 const product = async(req, res)=>{
     let result = await productService.getAll();
-    res.send(result.proload);
+    res.send(result);
 }
 
 const allProduct = async(req, res)=>{
@@ -31,14 +32,20 @@ const allProduct = async(req, res)=>{
 }
 
 const getProduct = async(req, res)=>{
-    let result = await productService.getProduct(req.params.id);
+    //pasamos como parametro un objeto con el nombre de la propiedad que queremos y el valor que buscamos
+    let result = (await productService.getAll({code: req.params.id}))[0];
+    console.log(result)
     res.send(result)
 }
 const save = async(req, res)=>{
-    //? Recibe y agrega un producto, y lo devuelve con su id asignada
-    let image = req.protocol+"://"+req.hostname+":8080/imagen/"+req.file.filename ;
+    let image = "";
+    if(req.file !== undefined){
+        //? Recibe y agrega un producto, y lo devuelve con su id asignada
+        image = req.protocol+"://"+req.hostname+":8080/imagen/"+req.file.filename;
+    }
     const product = req.body;
     product.image = image;
+    
     let result = await productService.save(product); 
     res.send(result);
 }
@@ -69,7 +76,7 @@ const buyProduct = async(req, res) =>{
             pass: config.CORREO.password
         }
     })
-    const cart = await cartService.getProduct(req.body.idCart);
+    const cart = (await cartService.getAll(req.body.idCart))[0];
     let message = '';
     let precioTotal = 0;
     cart.forEach(element => {
