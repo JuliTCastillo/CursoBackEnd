@@ -2,7 +2,7 @@
 import jwt from 'jsonwebtoken';
 import config from "../config/config.js";
 import UserDTO from '../dao/dto/User.dto.js'
-import CartDTO from '../dao/dto/cart.dto.js';
+import ProductDTO from '../dao/dto/Product.dto.js';
 import { cartService, productService} from '../services/services.js';
 
 // const factory = await PersistenceFactory.getPersistence();
@@ -15,8 +15,7 @@ const save = async(req, res)=>{
     const token = req.cookies[config.COOKIE.user]; //obtenemos el token del usuario
     const user = jwt.verify(token, config.JWT.secret); //decodificamos el token del usuario
 
-    const tokenizedUser = UserDTO.putDbDTO(user, id) //modificamos el token del user
-    console.log('tokenizedUser ', tokenizedUser)
+    const tokenizedUser = UserDTO.newGetDbDTO(user, id) //modificamos el token del user
     res.clearCookie(config.COOKIE.user); //! BORRAMOS LA COOKIE
     // // //* CREAMOS UN NUEVO TOKEN CON LOS DATOS COA
         const newToken = jwt.sign(tokenizedUser, config.JWT.secret, {expiresIn: "1d" });
@@ -27,10 +26,11 @@ const save = async(req, res)=>{
 //* Vacia un carrito y lo elimina
 const deleteCart = async(req, res)=>{
     let id = req.params.id;
-    await cartService.deleteCart(id);
+    // await cartService.delete({_id:id});
     const token = req.cookies[config.COOKIE.user]; //obtenemos el token del usuario
     const user = jwt.verify(token, config.JWT.secret); //decodificamos el token del usuario
-    const tokenizedUser = UserDTO.getDbDTO(user); //Traemos al objeto desde el DTO
+
+    const tokenizedUser = UserDTO.newGetDbDTO(user, ''); //Traemos al objeto desde el DTO
 
     res.clearCookie(config.COOKIE.user); //! BORRAMOS LA COOKIE
     // //* CREAMOS UN NUEVO TOKEN CON LOS DATOS COA
@@ -63,7 +63,7 @@ const addProduct = async(req, res) =>{
     let dataCart = (await cartService.getAll({_id: user.idCart}))[0]; //obtenemos la info del carrito
     let infoProduct = (await productService.getAll({code: idProduct}))[0]; //obtenemos la informacion del producto
 
-    let obj = CartDTO.getDbDTO(infoProduct, count); //agregamos la propiedad de count
+    let obj = ProductDTO.getDbDTO(infoProduct, count); //agregamos la propiedad de count
     dataCart.product.push(obj); //pusheamos el nuevo producto
     
     let lengthProduct = dataCart.product; //obtenemos el tamaño el array del producto
@@ -76,7 +76,18 @@ const addProduct = async(req, res) =>{
 const deleteProduct = async(req, res)=>{
     let idCart = req.params.id;
     let idProduct = req.params.id_prod;
-    let response = await cartService.deleteProduct(idCart, idProduct);
+    let newListProduct=[];
+
+    let dataCart = (await cartService.getAll({_id: idCart}))[0];
+
+    dataCart.product.map(item =>{
+        if(item.code !== idProduct) newListProduct.push(item);
+    })
+
+    console.log(newListProduct)
+    let response = await cartService.update([{_id: idCart}, {product: newListProduct}]);
+    console.log(response)
+
     res.send(response)
 }
 

@@ -209,7 +209,7 @@ const showProduct = (object) =>{
                 </div>
              </div>
         `
-        precioTotal+= parseInt(element.price);
+        precioTotal+= parseInt(element.price) * parseInt(element.count);
     });
     return precioTotal;
 }

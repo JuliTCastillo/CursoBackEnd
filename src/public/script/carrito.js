@@ -26,7 +26,6 @@ const comprar = async(event) =>{
     let verifyUser;
     console.log('era esto')
     await fetch(`/api/user/verifyUser`).then(result => result.json()).then(json=> {verifyUser = json});
-    console.log('AAAAAAAD',verifyUser);
 
     if(verifyUser.status === '400'){
         location.href = verifyUser.ruta;
