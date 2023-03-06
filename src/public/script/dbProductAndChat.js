@@ -150,8 +150,8 @@ const message = (icon, text) => {
 //TODO: MODIFICACION DE DATOS
 const modificar = async(event) =>{
     let dataProduct;
-    await fetch(`${event.target.id}`).then(result => result.json()).then(json => {dataProduct = json.proload[0]})
-    console.log(dataProduct)
+    await fetch(`${event.target.id}`).then(result => result.json()).then(json => {dataProduct = json})
+
     inputForm.innerHTML = 
         `
         <div class="col m-3">
@@ -205,6 +205,15 @@ btnModify.addEventListener('click', async(e)=>{
     }).then(result => result.json()).then(json => console.log(json));
 
     await mostrarProducto();
+
+    Swal.fire({
+        toast: true,
+        position: "bottom-end",
+        showConfirmButton: false,
+        timer: 4000,
+        title: 'La modificacion ha sido un exito',
+        icon: 'success'
+    })
 })
 //------------------------------------------------------
 

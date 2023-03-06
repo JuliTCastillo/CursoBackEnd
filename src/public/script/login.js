@@ -3,17 +3,8 @@ const divAlert = document.getElementById('divAlert');
 const collapseExample = document.getElementById('collapseLogin');
 const iconUser = document.getElementById('iconUser');
 const iconLogin = document.getElementById('iconLogin');
-//! Falta arreglar la foto del user, hay que ocultar el iconlogin y poner de bajo de la foto el nombre del usuario :D
-const menssage = (text, icon) =>{
-    Swal.fire({
-        toast: true,
-        position: "top-end",
-        showConfirmButton: false,
-        timer: 4000,
-        title:  text,
-        icon: icon
-    })
-}
+
+//! Configuracion para ocultar el collapse
 const userConfig = (user)=>{
     collapseExample.removeAttribute('class')
     collapseExample.classList.add('designCollapse')
@@ -25,6 +16,8 @@ const userConfig = (user)=>{
         <p class='text-center m-1'>${user.name}
     `
 }
+
+//! funcionalidad para loguearse
 formLogin.addEventListener('submit', async(event) =>{
     event.preventDefault();
     let data = new FormData(formLogin);
@@ -37,6 +30,7 @@ formLogin.addEventListener('submit', async(event) =>{
         body: JSON.stringify(obj) //Mandamos al objeto directamente
     })
     .then(result => result.json()).then(json => {
+        //Mensaje parea el usaurio en caso de que tenga un error 
         if(json.status === 'error'){
             divAlert.innerHTML = 
             `<div class="alert alert-danger text-center w-100 p-1" role="alert">
@@ -44,9 +38,10 @@ formLogin.addEventListener('submit', async(event) =>{
             </div>`
         }       
         else{ 
-            menssage(json.proload, json.status)
+            //recarga para la visualizacion del usuario 
             divAlert.innerHTML = ``;
             userConfig(json.payload);
+            location.href = '/tienda'
         }
     })
 })

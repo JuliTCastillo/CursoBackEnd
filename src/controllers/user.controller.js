@@ -5,8 +5,6 @@ import jwt from 'jsonwebtoken';
 import config from "../config/config.js";
 import UserDTO from "../dao/dto/user.dto.js";
 
-// const factory = await PersistenceFactory.getPersistence();
-// const userService = factory.user;
 
 const registerUser = async(req, res)=>{
     console.log(req.body)
@@ -17,7 +15,7 @@ const registerUser = async(req, res)=>{
     if(result) return res.status(400).send({status:'error', error:'El correo ya existe'})
     let newPassword = await createHash(passwordUser);
     req.body.passwordUser = newPassword;
-    let consult = await userService.save(req.body); 
+    let consult = await userService.save({...req.body}); 
     res.send({status:'success', proload: 'El usuario se registro'})
 }
 

@@ -18,22 +18,25 @@ const home =  (req, res)=>{
     res.render('pages/problems', {problem: 'Esta pagina no esta disponible :(', error: '404'});
 }
 
+//! Obtenemos los producto
 const product = async(req, res)=>{
     let result = await productService.getAll();
     res.send(result);
 }
 
+//! Obtenemos los producto
 const allProduct = async(req, res)=>{
     let result = await productService.getAll();
     res.render('pages/producto',{product:result.proload});
 }
-
+//! Obtenemos el producto por el code
 const getProduct = async(req, res)=>{
     //pasamos como parametro un objeto con el nombre de la propiedad que queremos y el valor que buscamos
     let result = (await productService.getAll({code: req.params.id}))[0];
-    console.log(result)
     res.send(result)
 }
+
+//! Guardamos el producto
 const save = async(req, res)=>{
     let image = "";
     if(req.file !== undefined){
@@ -43,9 +46,10 @@ const save = async(req, res)=>{
     const product = req.body;
     product.image = image;
     
-    let result = await productService.save(product); 
+    let result = await productService.save({...product}); 
     res.send(result);
 }
+//! modificamos el producto
 const modifyProduct = async (req, res)=>{
     let newData = req.body;
     let data ={};
@@ -54,13 +58,14 @@ const modifyProduct = async (req, res)=>{
         data = {...newData, image : req.protocol+"://"+req.hostname+":8080/imagen/"+req.file.filename}
     }
     else data = {...newData};
+
     let id = req.params.idProduct;
-    let result = await productService.updateProduct(data, id)
+    let result = await productService.update([{code:id}, {...data}])
     res.send({status: "success", payload: result})
 }
 
 const deleteProduct = async(req, res)=>{
-    let result = await productService.deleteProduct(req.params.id);
+    let result = await productService.delete({code: req.params.id});
     res.send({status: "success", payload: result})
 }
 
@@ -72,7 +77,7 @@ const buyProduct = async(req, res) =>{
     cart.product.forEach(async (element) => {
         const newProduct = ProductDTO.updateDbDTO(element);
         await productService.update([{_id: element._id}, {...newProduct}]);
-    });
+    })
 
     const token = req.cookies[config.COOKIE.user]; //obtenemos el token del usuario
     const user = jwt.verify(token, config.JWT.secret); //decodificamos el token del usuario

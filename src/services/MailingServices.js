@@ -46,7 +46,7 @@ export const mailing = async(cart, user) => {
         //configuracion de envio del mail
         await transport.sendMail({
             from: 'yo',
-            to: `julietacastillo326@gmail.com`,
+            to: `${user}`,
             subject: 'Libreria Juli :)',
             html: `<div>${message}</div>`
         })
