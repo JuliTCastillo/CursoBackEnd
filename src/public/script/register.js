@@ -27,7 +27,7 @@ formRegister.addEventListener('submit' , async e =>{
         body: JSON.stringify(obj) //Mandamos al objeto directamente
     }).then(result => result.json()).then(json => {answer=json})
 
-    if(answer.status === 'error') menssage(answer.error, answer.status, "top-end")
+    if(answer.status === 'error') menssage(answer.error, answer.status, "bottom-end")
     else{
         await menssage('El usuario fue registrado correctamente','success', "bottom-end")
         location.href = '/tienda';

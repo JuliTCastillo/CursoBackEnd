@@ -16,7 +16,7 @@
         <h1 class="p-2 text-center">Productos disponible</h1>
         <div class="row d-flex justify-content-center align-items-center gap-4 m-4" id="listProdcu">
             <%product.forEach(element => { %>
-                <div class="col d-flex justify-content-center align-items-center shade rounded position-relative">
+                <div class="col-3 d-flex justify-content-center align-items-center shade rounded position-relative size">
                     <div class="p-3">
                         <h3 class="text-center"><%= element.name%></h3>
                         <div class="posicionStock">
@@ -43,14 +43,13 @@
                                 </div>
                             </abbr>
                         </div>
-                        <!-- <div class="d-flex justify-content-center align-items-center">
-                            <button class="btn btn-primary btnBuyProduct" id="<%=element.code%>">Comprar</button>
-                        </div> -->
                     </div>
                 </div>
             <%});%>
         </div>
     </main>
+    <%- include('footer'); %>
+
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="module" src="/script/carrito.js"></script>
     <script type="module" src="/script/login.js"></script>

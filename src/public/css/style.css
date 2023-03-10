@@ -1,4 +1,7 @@
 *{font-family: Arial, Helvetica, sans-serif;}
+.size{
+    width: 25rem !important;
+}
 .shade{
     box-shadow: 0 0rem 1rem rgba(0,0,0,0.175)
 }

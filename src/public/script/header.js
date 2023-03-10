@@ -32,7 +32,7 @@ const verifyUser = async () => {
         if(data.idCart !== '') await infoCart(data.idCart);
 
         if(data.role === 'admin'){
-            itemAdmin.innerHTML = `<a class="nav-link" href="/api/products/home">Administrar</a>`
+            itemAdmin.innerHTML = `<a class="nav-link" href="/admin">Administrar</a>`
         }
     }
     else {

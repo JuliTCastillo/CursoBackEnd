@@ -8,8 +8,6 @@ router.post('/', userController.registerUser);
 
 router.post('/login', userController.login);
 
-router.get('/updateData/:data', userController.updateData);
-
 router.get('/data', userController.dataUser);
 
 router.get('/verifyUser', verifyUser);

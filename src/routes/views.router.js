@@ -7,6 +7,8 @@ const router = Router();
 
 router.get('/tienda', viewsController.tienda);
 
+router.get("/admin", viewsController.admin);
+
 router.get('/user', async(req, res)=>{
     const token = req.cookies[config.COOKIE.user];
     const user = jwt.verify(token, config.JWT.secret);

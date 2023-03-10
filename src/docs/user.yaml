@@ -1,0 +1,295 @@
+# components: 
+#   schemas:
+#       User:
+#         type: object
+#         properties: 
+#           _id:
+#             type: ObjectID
+#             description: Id autogestionerado por Mongo
+#           avatar: 
+#             type: String
+#             description: Imagen del usuario registrado
+#           firsName:
+#             type: String
+#             description: Nombre del usuario
+#           lastName:
+#             type: String
+#             description: Apellido del usuario
+#           email:
+#             type: String
+#             description: Direccion del email del usuario
+#           role:
+#             type: String
+#             description: Rol del usuario | por defecto da un rol de user
+#           passwordUser:
+#             type: String
+#             description: Contraseña del usuario
+#       example:
+#           _id: 63fbbae31a4520ca8083a7ac
+#           avatar: "https://api.dicebear.com/5.x/micah/svg?seed=Usuario"       
+#           firstName: "Usuario"
+#           lastName: "Prueba"
+#           email: "CorreoUsuario"
+#           role: "user"
+#           passwordUser: "$2b$10$1hf9XFdnGRx9g3O9QxbPTu.tVC7jYiswflmlPqQTmHjM.keQohvHO"
+paths:
+  /api/user/data:
+    get:
+      summary: Obtiene los datos del usuario a traves de la cookie
+      tags: 
+        - User
+      responses:
+        "200":
+          description: Obtiene datos del usuario
+          content:
+            application/json:
+                schema:
+                  type: object
+                  properties:
+                      status:
+                        type: String
+                        description: success
+                      payload:
+                        type: object
+                        properties:
+                          _id:
+                            type: objectId
+                            description: id gestionda por mongo
+                          role:
+                            type: String
+                            description: rol del usuario
+                          name:
+                            type: String
+                            description: nombre completo del usuario
+                          email:
+                            type: String
+                            description: correo del usuario
+                          avatar:
+                            type: String
+                            description: link autogestionado por la api dicebear
+                          idCart:
+                            type: String
+                            description: Se guarda la id gestionada por mongo si el usuario crea un carrito
+  /api/user/verifyUser:
+    get:
+      summary: Verifica si existe un usuario conectado con las cookie
+      tags:
+        - User
+      responses:
+        "401":
+          description: Error no se encontro ningun usuario conectado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                    status:
+                      type: String
+                      description: error
+                    ruta:
+                      type: String
+                      description: No se encontro ningun usuario
+        "400":
+          description: Error un usuario intenta hacer acciones sin loguearse
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status:
+                    type: String
+                    description: Error
+                  ruta:
+                    type: String
+                    description: /error/400
+        "200":
+          description: Se fija si existe una cookie de conexion en el navegador
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status:
+                    type: String
+                    description: success
+                  payload:
+                      type: object
+                      properties:
+                        _id:
+                          type: objectId
+                          description: id gestionda por mongo
+                        role:
+                          type: String
+                          description: rol del usuario
+                        name:
+                          type: String
+                          description: nombre completo del usuario
+                        email:
+                          type: String
+                          description: correo del usuario
+                        avatar:
+                          type: String
+                          description: link autogestionado por la api dicebear
+                        idCart:
+                          type: String
+                          description: Se guarda la id gestionada por mongo si el usuario crea un carrito
+  /api/user/logout:
+    get:
+      summary: Desconecta al usuario
+      tags:
+        - User
+      responses:
+        "200":
+          description: Elimina la cookie de conexion del usuario
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: String
+                    description: success
+                  message:
+                    type: String
+                    description: Usuario desloguado
+  /api/user/login:
+    post:
+      summary: inicio de sesion del usuario
+      tags:
+        - User
+      requestBody:
+        content:
+          application/json:
+          schema:
+            type: object
+            properties:
+              email:
+                type: String
+                description: correo del usuario 
+              passwordUser:
+                type: String
+                description: contraseña del usuario
+      responses:
+        "401":
+          description: Error el usuario no existe
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: String
+                    description: error
+                  error:
+                    type: String
+                    description: El usuario no existe
+        "400":
+          description: Error la contaseña no es valida
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: String
+                    description: error
+                  error:
+                    type: String
+                    description: la contaseña ingresada no es valida
+        "200":
+          description: el usuario ingresa correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: String
+                    description: success
+                  proload:
+                    type: String
+                    description: usuario conectado
+                  payload:
+                    type: object
+                    properties:
+                        _id:
+                          type: objectId
+                          description: id gestionda por mongo
+                        role:
+                          type: String
+                          description: rol del usuario
+                        name:
+                          type: String
+                          description: nombre completo del usuario
+                        email:
+                          type: String
+                          description: correo del usuario
+                        avatar:
+                          type: String
+                          description: link autogestionado por la api dicebear
+                        idCart:
+                          type: String
+                          description: Se guarda la id gestionada por mongo si el usuario crea un carrito
+  /api/user/:
+    post:
+      summary: Registramos a un usuario
+      tags:
+        - User
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firsName:
+                  type: String
+                  description: Nombre del usuario
+                lastName:
+                  type: String
+                  description: Apellido del usuario
+                email:
+                  type: String
+                  description: correo del usuario 
+                passwordUser:
+                  type: String
+                  description: contraseña del usuario
+      responses:
+        "400":
+          description: El correo ingresado ya esta registrado, aviso para que use otro
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: String
+                    description: error
+                  error:
+                    type: String
+                    description: El correo ya existe
+        "401":
+          description: Los campos ingresados estan vacios
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: String
+                    description: error
+                  error:
+                    type: String
+                    description: los campos estan vacios
+        "200":
+          description: Se creo correctamente el usuario registrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: String
+                    description: success
+                  proload: 
+                    type: String
+                    description: El usuario se registro

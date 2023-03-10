@@ -5,13 +5,7 @@ import productController from "../controllers/product.controller.js";
 
 const router = Router(); //inicializamos el route
 
-router.get('/home', productController.home);
-
-// router.get('/chat', productController.chat);
-
 router.get('/product', productController.product);
-
-router.get('/allProduct', productController.allProduct);
 
 router.get("/:id", productController.getProduct);
 

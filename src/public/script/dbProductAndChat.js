@@ -14,52 +14,8 @@ const dataModification = document.getElementById('dataModification');
 let estado = true;
 let user = [];
 
-//TODO: INGRESO DE USUARIO - VALIDAMOS EL NOMBRE Y MOSTRAMOS PRODUCTOS
-// while (estado) {
-//     //Creamos una variable que guarde un array
-//     const { value: formValues } = await Swal.fire({
-//         title: 'Iniciar sesion',
-//         html:
-//             `
-//             <div class='m-3'>
-//                 <label for='swal-input1' class='form-label d-block text-lg-start'>Ingrese su nombre</label>
-//                 <input id="swal-input1" class="swal2-input m-0 w-100">
-//             </div>
-//             <div class='m-3'>
-//                 <label for='swal-input1' class='form-label d-block text-lg-start'>Ingrese su email</label>
-//                 <input id="swal-input2" class="swal2-input m-0 w-100">
-//             </div>
-//             <div id='error'></div>
-//         `,
-//         allowOutsideClick: false,
-//         focusConfirm: false,
-//         preConfirm: () => {
-//             //Nos devuelve un array con el valor de los inputs
-//             return [
-//                 document.getElementById('swal-input1').value,
-//                 document.getElementById('swal-input2').value
-//             ]
-//         }
-//     })
-//     //Verificamos si los arrays contiene algun texto
-//     if (formValues[0] !== '' && formValues[1] !== '') {
-//         estado = false; //Colocamos el estado a falso para salir del while
-//         //generamos un avatar para el usuario
-//         formValues.push(`https://api.dicebear.com/5.x/micah/svg?seed=${formValues[0]}`)
-//         user = formValues; //guardamos todo en nuestra variable user
-//     }
-//     else { //en el caso que nuestro usuario no haya ingresado, le advertimos con un alert
-//         await Swal.fire({
-//             icon: 'error',
-//             title: 'Campos Vacios',
-//             text: 'Por favor, complete los campos vacio!',
-//         })
-//     }
-// }
-
 //? una vez que se completaron los datos nos conetamos con el socket
 socket.connect(); //nos conectamos al socket
-// socket.emit('authenticated', user);
 mostrarProducto();
 
 const deleteProduct = async (event) => {
@@ -149,9 +105,10 @@ const message = (icon, text) => {
 // -----------------------------------------------------
 //TODO: MODIFICACION DE DATOS
 const modificar = async(event) =>{
+    console.log('aaa', event.target.id)
     let dataProduct;
-    await fetch(`${event.target.id}`).then(result => result.json()).then(json => {dataProduct = json})
-
+    await fetch(`/api/products/${event.target.id}`).then(result => result.json()).then(json => {dataProduct = json})
+    console.log('Array para modificar el producto ',dataProduct)
     inputForm.innerHTML = 
         `
         <div class="col m-3">
@@ -199,7 +156,7 @@ btnModify.addEventListener('click', async(e)=>{
     const idCode = document.getElementById('idCode');
 
     console.log(obj)
-    await fetch(`modifyProduct/${idCode.dataset.bsTarget}`, {
+    await fetch(`/api/products/modifyProduct/${idCode.dataset.bsTarget}`, {
         method:'PUT',
         body: data
     }).then(result => result.json()).then(json => console.log(json));

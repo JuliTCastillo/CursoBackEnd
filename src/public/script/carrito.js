@@ -26,13 +26,12 @@ const comprar = async(event) =>{
     let verifyUser;
     console.log('era esto')
     await fetch(`/api/user/verifyUser`).then(result => result.json()).then(json=> {verifyUser = json});
-
-    if(verifyUser.status === '400'){
+    console.log(verifyUser)
+    if(verifyUser.status === 'error'){
         location.href = verifyUser.ruta;
     }
     else{
         let data = verifyUser.payload;
-        console.log(data);
         if(data.idCart === '') data = await createCart();
         console.log('data ', data)
         idCarrito = data.idCart;

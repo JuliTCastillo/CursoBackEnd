@@ -5,29 +5,10 @@ import ProductDTO from '../dao/dto/Product.dto.js';
 import { productService, cartService} from '../services/services.js';
 import { mailing } from '../services/MailingServices.js';
 
-
-const home =  (req, res)=>{
-    const token = req.cookies[config.COOKIE.user]; //obtenemos el token del usuario
-    if(token !== undefined){
-        const user = jwt.verify(token, config.JWT.secret);
-        console.log(user)
-        if(user.role === 'admin'){
-            res.render('home');
-        }
-    }
-    res.render('pages/problems', {problem: 'Esta pagina no esta disponible :(', error: '404'});
-}
-
 //! Obtenemos los producto
 const product = async(req, res)=>{
     let result = await productService.getAll();
     res.send(result);
-}
-
-//! Obtenemos los producto
-const allProduct = async(req, res)=>{
-    let result = await productService.getAll();
-    res.render('pages/producto',{product:result.proload});
 }
 //! Obtenemos el producto por el code
 const getProduct = async(req, res)=>{
@@ -93,4 +74,4 @@ const buyProduct = async(req, res) =>{
     res.send({status: "success", payload: 'ok'})
 }
 
-export default {home, product, allProduct, getProduct, save, modifyProduct, deleteProduct, buyProduct}
+export default {product, getProduct, save, modifyProduct, deleteProduct, buyProduct}

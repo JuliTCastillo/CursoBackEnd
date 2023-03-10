@@ -7,13 +7,28 @@ import __dirname from "./utils.js";
 import {Server} from 'socket.io'; //?importamos el modulo de socket
 import cookieParser from "cookie-parser";
 import { addLogger } from "./utils.js";
-const app = express();
+import swaggerJsdoc from "swagger-jsdoc";
+import swaggerUIExpress from "swagger-ui-express";
 
-// const object = objectChat;
+const app = express();
+const PORT = process.env.PORT || 8080; //?En el caso que tengamos un puerto lo tomamos, sino tenemos un puerto por defecto tomamos el 8080 | en glitch usa puertos distinto a 8080
 
 //Le indicamos donde van estar guardadas nuestras vistas
 app.set('views', `${__dirname}/public/views`); //templay string
 app.set('view engine', 'ejs');
+
+const swaggerOptions = {
+    definition : {
+        opneapi: "3.0.1",
+        info: {
+            title: "Libreria de Juli",
+            description: "API privada de libreria"
+        }
+    },
+    apis :[`${__dirname}/docs/**/*.yaml`]
+}
+const specs = swaggerJsdoc(swaggerOptions);
+
 
 app.use(express.json()); //le indicamos que procese json
 app.use(express.urlencoded({ extended : true }));
@@ -26,6 +41,7 @@ app.use('/', viewsRouter);
 app.use("/api/products", productRouter);
 app.use('/api/carrito', carritoRouter);
 app.use('/api/user', userRouter);
+app.use("/api-docs", swaggerUIExpress.serve, swaggerUIExpress.setup(specs))
 
 app.get('*', (req, res)=>{
     req.logger.warn(`Se inteto ingresar a ${req.url} que no existe`);
@@ -33,25 +49,14 @@ app.get('*', (req, res)=>{
 })
 
 //El USE es un MIDDLEWARE: Es decir que para en todos sus use para realizar el pedido que se esta pidiendo. Podemos crear nuestros MIDDLEWARE | un parametro importante es el next: Su funcionamiento es pasar al siguiente MIDDLEWARE.
-const PORT = process.env.PORT || 8080; //?En el caso que tengamos un puerto lo tomamos, sino tenemos un puerto por defecto tomamos el 8080 | en glitch usa puertos distinto a 8080
+
 const server = app.listen(PORT, ()=>console.log("Escuchando :)"));
 
 //? iniciamos el socket indicando el puerto que usamos
 const io = new Server(server);
-//const message = []; //guarda los mensaje se envian
 
 //?el metodo .on se queda escuchando los evento del servidor 
 io.on('connection', async socket =>{
-    /*************
-     * los emit y on, es la comunicacion que hay entre el usuario y el servidor
-     * ? Van acompañado de el nombre de la accion y una variable que guarda el dato de la accion
-     *************/
-    // socket.on('message', async(data) =>{
-    //     // message.push(data);
-    //     await object.save(data);
-    //     let messages = await object.getAll();
-    //     io.emit('logs', messages);
-    // })
     socket.on('authenticated', data =>{
         //socket :  hablamos de una accion realizado por el usuario que tenemos
         //.broadcast : realiza una accion para los otros usaurio menos al usuario que desencadeno el evento
