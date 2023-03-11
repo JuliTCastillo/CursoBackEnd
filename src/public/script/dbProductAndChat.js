@@ -28,7 +28,6 @@ async function mostrarProducto() {
     await fetch("/api/products/product")
         .then(result => result.json())
         .then(json => {
-            console.log(json)
             listProduct.innerHTML = ''
             json.forEach(element => {
                 listProduct.innerHTML +=
@@ -105,10 +104,8 @@ const message = (icon, text) => {
 // -----------------------------------------------------
 //TODO: MODIFICACION DE DATOS
 const modificar = async(event) =>{
-    console.log('aaa', event.target.id)
     let dataProduct;
     await fetch(`/api/products/${event.target.id}`).then(result => result.json()).then(json => {dataProduct = json})
-    console.log('Array para modificar el producto ',dataProduct)
     inputForm.innerHTML = 
         `
         <div class="col m-3">
@@ -155,7 +152,6 @@ btnModify.addEventListener('click', async(e)=>{
     data.forEach((value, key) => obj[key] = value);
     const idCode = document.getElementById('idCode');
 
-    console.log(obj)
     await fetch(`/api/products/modifyProduct/${idCode.dataset.bsTarget}`, {
         method:'PUT',
         body: data

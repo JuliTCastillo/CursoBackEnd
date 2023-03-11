@@ -12,7 +12,6 @@ const admin =  (req, res)=>{
     const token = req.cookies[config.COOKIE.user]; //obtenemos el token del usuario
     if(token !== undefined){
         const user = jwt.verify(token, config.JWT.secret);
-        console.log(user)
         if(user.role === 'admin'){
             res.render('home');
         }

@@ -7,7 +7,6 @@ import UserDTO from "../dao/dto/user.dto.js";
 
 //!registra al usuario
 const registerUser = async(req, res)=>{
-    console.log(req.body)
     const {firstName, lastName, email, passwordUser} = req.body;
     if(firstName || lastName || email || passwordUser === '') return res.status(401).send({status: 'error', error: 'Los campo estan vacios'})
     //Consultamos los datos del usuario

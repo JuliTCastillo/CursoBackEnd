@@ -12,7 +12,6 @@ router.get("/admin", viewsController.admin);
 router.get('/user', async(req, res)=>{
     const token = req.cookies[config.COOKIE.user];
     const user = jwt.verify(token, config.JWT.secret);
-    console.log(user)
     res.render('pages/user',{user: user});
 })
 

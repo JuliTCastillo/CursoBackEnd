@@ -37,7 +37,7 @@ paths:
     parameters:
             -   name: id
                 in: path
-                description: Representa al _id del producto guardado en Mongo
+                description: Representa el codigo del producto que se quiere buscar
                 schema:
                     type: string
     get:
@@ -73,5 +73,47 @@ paths:
                       stock:
                         type: Number
                         description: stock del producto
-      
-
+  /api/products/{code}:
+    parameters:
+            -   name: code
+                in: path
+                description: Representa al codigo del producto que se quiere eliminar
+                schema:
+                    type: string
+    delete:
+      summary: Elimina un producto segun el codigo que se ingreso
+      tags:
+        - Product
+      responses:
+        "400":
+          description: Si el usuario ingresa un codigo del producto si no existe
+          content:
+            application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: String
+                      description: error
+                    error:
+                      type: String
+                      description: El codigo ingresado no existe
+        "200":
+          description: Se elimino el producto correctamente
+          content:
+              application/json:
+                schema: 
+                  type: object
+                  propertirs:
+                    status:
+                      type: String
+                      description: success
+                    payload:
+                      type: object
+                      properties:
+                        acknowledged:
+                          type: boolean
+                          description: valor generado por mongo, nos indica si nuestra peticion fue admitida
+                        deletedCount:
+                          type: Number
+                          description: valor generado por mongo, nos indica la cantidad de eliminados

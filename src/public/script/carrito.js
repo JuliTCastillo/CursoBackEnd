@@ -24,16 +24,13 @@ const createCart = async() =>{
 }
 const comprar = async(event) =>{
     let verifyUser;
-    console.log('era esto')
     await fetch(`/api/user/verifyUser`).then(result => result.json()).then(json=> {verifyUser = json});
-    console.log(verifyUser)
     if(verifyUser.status === 'error'){
         location.href = verifyUser.ruta;
     }
     else{
         let data = verifyUser.payload;
         if(data.idCart === '') data = await createCart();
-        console.log('data ', data)
         idCarrito = data.idCart;
         const idProduct = event.target.dataset.bsTarget;
         location.href = `/tienda/product/${idProduct}`

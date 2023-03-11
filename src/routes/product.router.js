@@ -15,7 +15,7 @@ router.put("/modifyProduct/:idProduct",uploader.single('image'), productControll
 
 router.put('/updateStock', productController.buyProduct)
 
-router.delete("/:id", productController.deleteProduct);
+router.delete("/:code", productController.deleteProduct);
 
 router.get('*', (req, res)=>{
     req.logger.warn(`Se inteto ingresar a ${req.url} que no existe`);

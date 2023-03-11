@@ -18,10 +18,8 @@ btnLogout.addEventListener('click', async(e) =>{
 const verifyUser = async () => {
     let answer;
     await fetch(`/api/user/verifyUser`).then(result => result.json()).then(json => { answer = json });
-    console.log('answer es igual', answer)
     if (answer.status === 'success') {
         let data = answer.payload;
-        console.log('answer. payload ', data)
         iconLogin.classList.add('d-none');
         iconUser.innerHTML =
             `
@@ -121,7 +119,6 @@ const eliminarProduct =async(event) =>{
 const eliminarCarrito = async() =>{
     let infoUser;
     await fetch(`/api/user/verifyUser`).then(result => result.json()).then(json=> {infoUser = json.payload});
-    console.log(infoUser)
     //Eliminamos el carrito
     await fetch(`/api/carrito/${infoUser.idCart}`,{
         method: 'DELETE'
@@ -162,7 +159,6 @@ btnCart.addEventListener('click', e =>{
 const mostrarProductos = async() =>{
     let infoUser;
     await fetch(`/api/user/verifyUser`).then(result => result.json()).then(json=> {infoUser = json.payload});
-    console.log(infoUser.idCart)
     await fetch(`/api/carrito/${infoUser.idCart}/productos`).then(result => result.json())
     .then(json => {
         //obtenemos el objeto del carrito y especificamos que solo queremos los productos

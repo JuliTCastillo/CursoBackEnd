@@ -46,7 +46,8 @@ const modifyProduct = async (req, res)=>{
 }
 
 const deleteProduct = async(req, res)=>{
-    let result = await productService.delete({code: req.params.id});
+    let result = await productService.delete({code: req.params.code});
+    if(result.deletedCount == 0) return res.status(400).send({status: "error", error: 'El codigo ingresado no existe'})
     res.send({status: "success", payload: result})
 }
 
@@ -62,9 +63,7 @@ const buyProduct = async(req, res) =>{
 
     const token = req.cookies[config.COOKIE.user]; //obtenemos el token del usuario
     const user = jwt.verify(token, config.JWT.secret); //decodificamos el token del usuario
-    console.log(user)
     const tokenizedUser = UserDTO.newGetDbDTO(user, '') //modificamos el token del user
-    console.log(tokenizedUser)
 
     res.clearCookie(config.COOKIE.user); //! BORRAMOS LA COOKIE
     //* CREAMOS UN NUEVO TOKEN CON LOS DATOS COA

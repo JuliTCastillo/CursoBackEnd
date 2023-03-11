@@ -84,9 +84,7 @@ const deleteProduct = async(req, res)=>{
         if(item.code !== idProduct) newListProduct.push(item);
     })
 
-    console.log(newListProduct)
     let response = await cartService.update([{_id: idCart}, {product: newListProduct}]);
-    console.log(response)
 
     res.send(response)
 }

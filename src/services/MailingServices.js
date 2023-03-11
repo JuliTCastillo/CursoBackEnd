@@ -3,9 +3,6 @@ import config from '../config/config.js';
 
 export const mailing = async(cart, user) => {
     try {
-        console.log('---------------')
-        console.log(cart, ' ', user)
-        console.log('---------------')
         //Configuramos nodemailer
         const transport = nodemailer.createTransport({
             service: 'gmail',

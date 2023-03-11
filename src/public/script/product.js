@@ -20,11 +20,9 @@ btnBig.addEventListener('click', async event => {
     }).then(result => result.json()).then(json => { product = json })
     product = product; //guardamos los datos 
 
-    console.log(product)
     //validadmos el stock
     if (valor < parseInt(product.stock)){
         btnCount.value = parseInt(btnCount.value) + 1;
-        console.log(btnCount.value)
         divError.innerHTML = ''
     }
     else {
